@@ -1,0 +1,20 @@
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+
+== 인사하기
+
+=== Request
+
+CURL:
+include::{snippets}/crew/curl-request.adoc[]
+
+Request Parameters:
+include::{snippets}/crew/http-request.adoc[]
+
+Request HTTP Example:
+include::{snippets}/crew/http-request.adoc[]
+
+=== Response
+Response:
+include::{snippets}/crew/http-response.adoc[]
