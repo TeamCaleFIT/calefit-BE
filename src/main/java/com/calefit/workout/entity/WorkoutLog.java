@@ -1,5 +1,7 @@
 package com.calefit.workout.entity;
 
+import static javax.persistence.FetchType.*;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -14,10 +16,10 @@ public class WorkoutLog {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = LAZY)
     private Schedule schedule;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = LAZY)
     private Workout workout;
 
     //todo: 아래 정보로 따로 처리할 작업이 있다면 추후 Embeddable로 분리하기.

@@ -1,5 +1,7 @@
 package com.calefit.inbody.entity;
 
+import static javax.persistence.FetchType.*;
+
 import com.calefit.inbody.domain.BodyComposition;
 import com.calefit.member.entity.Member;
 import java.time.LocalDateTime;
@@ -17,7 +19,7 @@ public class Inbody {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = LAZY)
     private Member member;
 
     private LocalDateTime date;

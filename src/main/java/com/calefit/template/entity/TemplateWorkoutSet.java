@@ -1,5 +1,7 @@
 package com.calefit.template.entity;
 
+import static javax.persistence.FetchType.*;
+
 import com.calefit.workout.entity.Workout;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,10 +18,10 @@ public class TemplateWorkoutSet {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = LAZY)
     private Template template;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = LAZY)
     private Workout workout;
 
     private Integer sets;
