@@ -30,10 +30,10 @@ public class Crew extends BaseTime {
     @Embedded
     private Image image;
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "crew")
     private List<Member> members = new ArrayList<>();
 
-    private Long member_cnt;
+    private Long memberCount;
     private Long score;
 
 }

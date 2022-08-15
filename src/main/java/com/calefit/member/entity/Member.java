@@ -38,7 +38,6 @@ public class Member extends BaseTime {
     private String role;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "crew_id")
     private Crew crew;
 
 }
