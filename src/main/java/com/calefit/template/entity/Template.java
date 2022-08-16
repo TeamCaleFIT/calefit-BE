@@ -1,5 +1,7 @@
 package com.calefit.template.entity;
 
+import static javax.persistence.FetchType.*;
+
 import com.calefit.member.entity.Member;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +24,7 @@ public class Template {
     @OneToMany(mappedBy = "template")
     private List<TemplateWorkoutSet> templateWorkoutSets = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = LAZY)
     private Member member;
 
 }

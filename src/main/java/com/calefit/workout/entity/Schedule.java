@@ -1,5 +1,7 @@
 package com.calefit.workout.entity;
 
+import static javax.persistence.FetchType.*;
+
 import com.calefit.member.entity.Member;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -23,6 +25,6 @@ public class Schedule {
     @OneToMany(mappedBy = "schedule")
     private List<WorkoutLog> workoutLogs = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = LAZY)
     private Member member;
 }
