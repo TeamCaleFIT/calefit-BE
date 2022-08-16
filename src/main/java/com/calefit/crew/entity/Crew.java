@@ -33,7 +33,9 @@ public class Crew extends BaseTime {
     @OneToMany(mappedBy = "crew")
     private List<Member> members = new ArrayList<>();
 
+    @OneToMany(mappedBy = "crew")
+    private List<CrewApplication> crewApplications = new ArrayList<>();
+
     private Long memberCount;
     private Long score;
-
 }

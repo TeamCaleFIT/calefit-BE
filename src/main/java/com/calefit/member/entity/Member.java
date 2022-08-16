@@ -6,10 +6,15 @@ import com.calefit.member.domain.BodyInfo;
 import com.calefit.member.domain.Email;
 import com.calefit.member.domain.NickName;
 import com.calefit.member.domain.Password;
+import com.calefit.template.entity.Template;
+import com.calefit.workout.entity.Schedule;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -40,4 +45,9 @@ public class Member extends BaseTime {
     @ManyToOne(fetch = LAZY)
     private Crew crew;
 
+    @OneToMany(mappedBy = "member")
+    private List<Schedule> schedules = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Template> templates = new ArrayList<>();
 }
