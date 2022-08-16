@@ -18,6 +18,9 @@ public class CrewApplication extends BaseTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = LAZY)
+    @OneToOne(fetch = LAZY)
     private Member member;
+
+    @ManyToOne(fetch = LAZY)
+    private Crew crew;
 }
