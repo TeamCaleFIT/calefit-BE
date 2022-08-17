@@ -1,4 +1,4 @@
-package com.calefit.common.domain;
+package com.calefit.common.base;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
