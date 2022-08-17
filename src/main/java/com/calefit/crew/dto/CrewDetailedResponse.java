@@ -7,7 +7,7 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
-public class CrewSearchByIdResponse {
+public class CrewDetailedResponse {
 
     private final Long id;
     private final String name;
@@ -17,7 +17,7 @@ public class CrewSearchByIdResponse {
     private final Long score;
     private final List<Member> members;
 
-    public CrewSearchByIdResponse(Long id, String name, String description, String image, Long memberCount, Long score, List<Member> members) {
+    public CrewDetailedResponse(Long id, String name, String description, String image, Long memberCount, Long score, List<Member> members) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -27,8 +27,8 @@ public class CrewSearchByIdResponse {
         this.members = members;
     }
 
-    public static CrewSearchByIdResponse from(Crew crew) {
-        return new CrewSearchByIdResponse(
+    public static CrewDetailedResponse from(Crew crew) {
+        return new CrewDetailedResponse(
                 crew.getId(),
                 crew.getName(),
                 crew.getDescription(),
