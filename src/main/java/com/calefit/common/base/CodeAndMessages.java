@@ -1,6 +1,6 @@
 package com.calefit.common.base;
 
-public interface CodeAndMessage {
+public interface CodeAndMessages {
 
     String getCode();
     String getMessage();

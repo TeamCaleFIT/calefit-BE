@@ -1,6 +1,9 @@
 package com.calefit.common.base;
 
-public class ResponseCodeAndMessages implements CodeAndMessage {
+public enum ResponseCodeAndMessages implements CodeAndMessages {
+
+    //Crew
+    CREW_MODIFY_SUCCESS("CMS","수정이 완료되었습니다.");
 
     private final String code;
     private final String message;
