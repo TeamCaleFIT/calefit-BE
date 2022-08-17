@@ -1,7 +1,7 @@
 package com.calefit.crew;
 
 import com.calefit.common.dto.CommonDtoList;
-import com.calefit.crew.dto.CrewSearchByIdResponse;
+import com.calefit.crew.dto.CrewDetailedResponse;
 import com.calefit.crew.dto.CrewSearchResponse;
 import com.calefit.crew.entity.Crew;
 import lombok.RequiredArgsConstructor;
@@ -31,10 +31,22 @@ public class CrewService {
     }
 
     @Transactional(readOnly = true)
-    public CrewSearchByIdResponse searchCrewById (Long crewId) {
+    public CrewDetailedResponse searchCrewById (Long crewId) {
         Optional<Crew> searchCrewById = crewRepository.findById(crewId);
         //TODO searchCrewById에 대한 exception 처리 필요
 
-        return CrewSearchByIdResponse.from(searchCrewById.orElseThrow(RuntimeException::new));
+        return CrewDetailedResponse.from(searchCrewById.orElseThrow(RuntimeException::new));
+    }
+
+    @Transactional(readOnly = true)
+    public CommonDtoList searchCrewByName(String crewName) {
+        List<Crew> searchCrews = crewRepository.findCrewsByName(crewName);
+        //TODO searchCrews에 대한 exception 처리 필요
+        List<CrewSearchResponse> crewSearchResponses = searchCrews
+                .stream()
+                .map(CrewSearchResponse::from)
+                .collect(Collectors.toList());
+
+        return new CommonDtoList(crewSearchResponses);
     }
 }

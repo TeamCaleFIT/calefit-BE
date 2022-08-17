@@ -1,8 +1,7 @@
 package com.calefit.crew;
 
 import com.calefit.common.dto.CommonDtoList;
-import com.calefit.crew.dto.CrewSearchByIdResponse;
-import com.calefit.crew.dto.CrewSearchResponse;
+import com.calefit.crew.dto.CrewDetailedResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +19,13 @@ public class CrewController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CrewSearchByIdResponse> searchCrewById(@PathVariable("id") Long crewId) {
+    public ResponseEntity<CrewDetailedResponse> searchCrewById(@PathVariable("id") Long crewId) {
         return ResponseEntity.ok(crewService.searchCrewById(crewId));
+    }
+
+
+    @GetMapping("/name")
+    public ResponseEntity<CommonDtoList> searchCrewByName(@RequestParam("name") String crewName) {
+        return ResponseEntity.ok(crewService.searchCrewByName(crewName));
     }
 }
