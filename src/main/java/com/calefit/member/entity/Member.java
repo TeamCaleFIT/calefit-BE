@@ -3,6 +3,7 @@ package com.calefit.member.entity;
 import com.calefit.common.domain.BaseTime;
 import com.calefit.crew.entity.Crew;
 import com.calefit.member.domain.BodyInfo;
+import com.calefit.member.domain.CrewInfo;
 import com.calefit.template.entity.Template;
 import com.calefit.workout.entity.Schedule;
 import lombok.Getter;
@@ -23,21 +24,13 @@ public class Member extends BaseTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Embedded
     private String email;
-
-    @Embedded
     private String nickname;
-
-    @Embedded
     private String password;
-
-    @Embedded
     private BodyInfo bodyInfo;
 
-    private boolean isCrewJoined;
-    private String role;
+    @Embedded
+    private CrewInfo crewInfo;
 
     @ManyToOne(fetch = LAZY)
     private Crew crew;
@@ -47,4 +40,8 @@ public class Member extends BaseTime {
 
     @OneToMany(mappedBy = "member")
     private List<Template> templates = new ArrayList<>();
+
+    public void editCrewInfo(boolean isCrewJoined, String role) {
+        this.crewInfo = new CrewInfo(isCrewJoined, role);
+    }
 }
