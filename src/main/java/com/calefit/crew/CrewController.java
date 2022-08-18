@@ -1,8 +1,10 @@
 package com.calefit.crew;
 
 import com.calefit.common.dto.CommonDtoList;
+import com.calefit.crew.dto.CrewCreateRequest;
 import com.calefit.crew.dto.CrewDetailedResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,5 +29,11 @@ public class CrewController {
     @GetMapping("/name")
     public ResponseEntity<CommonDtoList> searchCrewByName(@RequestParam("name") String crewName) {
         return ResponseEntity.ok(crewService.searchCrewByName(crewName));
+    }
+
+    @PostMapping
+    public ResponseEntity<Void> createCrew(@RequestBody CrewCreateRequest crewRequest) {
+        crewService.createCrew(crewRequest);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

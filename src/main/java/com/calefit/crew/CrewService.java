@@ -1,9 +1,12 @@
 package com.calefit.crew;
 
 import com.calefit.common.dto.CommonDtoList;
+import com.calefit.crew.dto.CrewCreateRequest;
 import com.calefit.crew.dto.CrewDetailedResponse;
 import com.calefit.crew.dto.CrewSearchResponse;
 import com.calefit.crew.entity.Crew;
+import com.calefit.member.MemberRepository;
+import com.calefit.member.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +20,7 @@ import java.util.stream.Collectors;
 public class CrewService {
 
     private final CrewRepository crewRepository;
+    private final MemberRepository memberRepository;
 
     @Transactional(readOnly = true)
     public CommonDtoList searchCrews() {
@@ -48,5 +52,17 @@ public class CrewService {
                 .collect(Collectors.toList());
 
         return new CommonDtoList(crewSearchResponses);
+    }
+
+    @Transactional
+    public void createCrew(CrewCreateRequest crewRequest) {
+        Long memberId = crewRequest.getMemberId();
+        Member captain = memberRepository.findById(memberId).orElseThrow(RuntimeException::new);
+        //TODO 이미 크루장인지 검증 필요
+        captain.editCrewInfo(true, "captain");
+        //TODO 크루이름 중복 검증 필요
+        crewRepository.save(new Crew(crewRequest.getName(),
+                                     crewRequest.getDescription(),
+                                     crewRequest.getImage()));
     }
 }

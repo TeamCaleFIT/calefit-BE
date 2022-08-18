@@ -29,4 +29,9 @@ public class Crew extends BaseTime {
     @OneToMany(mappedBy = "crew")
     private List<CrewApplication> crewApplications = new ArrayList<>();
 
+    public Crew(String name, String description, String image) {
+        this.name = name;
+        this.description = description;
+        this.image = image;
+    }
 }
