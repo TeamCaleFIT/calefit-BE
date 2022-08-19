@@ -76,4 +76,14 @@ public class CrewService {
                         crewRequest.getDescription(),
                         crewRequest.getImage());
     }
+
+    @Transactional
+    public void deleteCrew(Long crewId, CrewDeleteRequest crewRequest) {
+        Long memberId = crewRequest.getMemberId();
+        //TODO Exception 수정 필요
+        //TODO 요청 멤버가 크루장인지 검증 필요
+        Member member = memberRepository.findById(memberId).orElseThrow(RuntimeException::new);
+        Crew crew = crewRepository.findById(crewId).orElseThrow(RuntimeException::new);
+        crewRepository.delete(crew);
+    }
 }

@@ -44,4 +44,10 @@ public class CrewController {
         crewService.updateCrew(crewId, crewRequest);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCrew(@PathVariable("id") Long crewId, @RequestBody CrewDeleteRequest crewRequest) {
+        crewService.deleteCrew(crewId, crewRequest);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
