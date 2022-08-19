@@ -35,6 +35,7 @@ public class Crew extends BaseTime {
         this.name = name;
         this.description = description;
         this.image = image;
+        this.memberCount = 1;
     }
 
     public void updateCrew(String name, String description, String image) {

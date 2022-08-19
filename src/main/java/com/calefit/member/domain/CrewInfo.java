@@ -14,6 +14,7 @@ public class CrewInfo {
     private String role;
 
     public CrewInfo(boolean isCrewJoined, String role) {
+        //TODO null 검증 로직 필요
         this.isCrewJoined = isCrewJoined;
         this.role = role;
     }
