@@ -1,9 +1,7 @@
 package com.calefit.crew;
 
 import com.calefit.common.dto.CommonDtoList;
-import com.calefit.crew.dto.CrewCreateRequest;
-import com.calefit.crew.dto.CrewDetailedResponse;
-import com.calefit.crew.dto.CrewSearchResponse;
+import com.calefit.crew.dto.*;
 import com.calefit.crew.entity.Crew;
 import com.calefit.member.MemberRepository;
 import com.calefit.member.entity.Member;
@@ -57,12 +55,25 @@ public class CrewService {
     @Transactional
     public void createCrew(CrewCreateRequest crewRequest) {
         Long memberId = crewRequest.getMemberId();
+        //TODO Exception 수정 필요
         Member captain = memberRepository.findById(memberId).orElseThrow(RuntimeException::new);
-        //TODO 이미 크루장인지 검증 필요
+        //TODO 요청 멤버가 이미 크루장인지 검증 필요
         captain.editCrewInfo(true, "captain");
         //TODO 크루이름 중복 검증 필요
         crewRepository.save(new Crew(crewRequest.getName(),
                                      crewRequest.getDescription(),
                                      crewRequest.getImage()));
+    }
+
+    @Transactional
+    public void updateCrew(Long crewId, CrewUpdateRequest crewRequest) {
+        Long memberId = crewRequest.getMemberId();
+        //TODO Exception 수정 필요
+        //TODO 요청 멤버가 크루장인지 검증 필요
+        Member member = memberRepository.findById(memberId).orElseThrow(RuntimeException::new);
+        Crew crew = crewRepository.findById(crewId).orElseThrow(RuntimeException::new);
+        crew.updateCrew(crewRequest.getName(),
+                        crewRequest.getDescription(),
+                        crewRequest.getImage());
     }
 }

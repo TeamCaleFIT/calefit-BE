@@ -2,7 +2,9 @@ package com.calefit.crew;
 
 import com.calefit.common.dto.CommonDtoList;
 import com.calefit.crew.dto.CrewCreateRequest;
+import com.calefit.crew.dto.CrewDeleteRequest;
 import com.calefit.crew.dto.CrewDetailedResponse;
+import com.calefit.crew.dto.CrewUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,5 +37,11 @@ public class CrewController {
     public ResponseEntity<Void> createCrew(@RequestBody CrewCreateRequest crewRequest) {
         crewService.createCrew(crewRequest);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Void> updateCrew(@PathVariable("id") Long crewId, @RequestBody CrewUpdateRequest crewRequest) {
+        crewService.updateCrew(crewId, crewRequest);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 }
