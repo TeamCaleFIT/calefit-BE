@@ -13,11 +13,11 @@ public class CrewDetailedResponse {
     private final String name;
     private final String description;
     private final String image;
-    private final Long memberCount;
+    private final Integer memberCount;
     private final Long score;
     private final List<Member> members;
 
-    public CrewDetailedResponse(Long id, String name, String description, String image, Long memberCount, Long score, List<Member> members) {
+    public CrewDetailedResponse(Long id, String name, String description, String image, Integer memberCount, Long score, List<Member> members) {
         this.id = id;
         this.name = name;
         this.description = description;

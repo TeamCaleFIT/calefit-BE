@@ -8,10 +8,10 @@ public class CrewSearchResponse {
 
     private final Long id;
     private final String name;
-    private final Long memberCount;
+    private final Integer memberCount;
     private final Long score;
 
-    public CrewSearchResponse(Long id, String name, Long memberCount, Long score) {
+    public CrewSearchResponse(Long id, String name, Integer memberCount, Long score) {
         this.id = id;
         this.name = name;
         this.memberCount = memberCount;
