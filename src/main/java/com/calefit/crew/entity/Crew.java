@@ -5,7 +5,6 @@ import com.calefit.member.entity.Member;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -38,6 +37,26 @@ public class Crew extends BaseTime {
         this.description = description;
         this.image = image;
         this.memberCount = 1;
+    }
+
+    public Crew(Long id,
+                Boolean deleted,
+                String name,
+                String description,
+                String image,
+                Integer memberCount,
+                Long score,
+                List<Member> members,
+                List<CrewApplication> crewApplications) {
+        this.id = id;
+        this.deleted = deleted;
+        this.name = name;
+        this.description = description;
+        this.image = image;
+        this.memberCount = memberCount;
+        this.score = score;
+        this.members = members;
+        this.crewApplications = crewApplications;
     }
 
     public void updateCrew(String name, String description, String image) {
