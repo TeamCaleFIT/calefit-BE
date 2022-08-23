@@ -9,6 +9,9 @@ import java.util.List;
 
 public interface CrewRepository extends JpaRepository<Crew, Long> {
 
+    @Query("SELECT c FROM Crew c WHERE c.name =?1")
+    Crew findCrewByName(String crewName);
+
     @Query("SELECT name FROM Crew WHERE name LIKE '%:crewName%'")
     List<Crew> findCrewsByName(@Param("name") String crewName);
 }

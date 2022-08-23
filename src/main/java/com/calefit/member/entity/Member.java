@@ -6,6 +6,7 @@ import com.calefit.member.domain.BodyInfo;
 import com.calefit.member.domain.CrewInfo;
 import com.calefit.template.entity.Template;
 import com.calefit.workout.entity.Schedule;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,7 +19,7 @@ import static javax.persistence.FetchType.LAZY;
 
 @Getter
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseTime {
 
     @Id
@@ -41,7 +42,13 @@ public class Member extends BaseTime {
     @OneToMany(mappedBy = "member")
     private List<Template> templates = new ArrayList<>();
 
-    public void editCrewInfo(boolean isCrewJoined, String role) {
-        this.crewInfo = new CrewInfo(isCrewJoined, role);
+    public void addCrew(Crew crew) {
+        this.crew = crew;
+        crew.getMembers().add(this);
+        this.crewInfo = new CrewInfo(true, "captain");
+    }
+
+    public void removeCaptainAuthority() {
+        this.crewInfo = new CrewInfo(false, null);
     }
 }

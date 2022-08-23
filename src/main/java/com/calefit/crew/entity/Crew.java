@@ -2,6 +2,7 @@ package com.calefit.crew.entity;
 
 import com.calefit.common.domain.BaseTime;
 import com.calefit.member.entity.Member;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.util.CollectionUtils;
@@ -13,12 +14,13 @@ import java.util.Objects;
 
 @Getter
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Crew extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Boolean deleted;
     private String name;
     private String description;
     private String image;
@@ -50,5 +52,9 @@ public class Crew extends BaseTime {
         if(!Objects.isNull(image)) {
             this.image = image;
         }
+    }
+
+    public void delete() {
+        this.deleted = true;
     }
 }
