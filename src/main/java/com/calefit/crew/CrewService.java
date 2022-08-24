@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -23,10 +24,13 @@ public class CrewService {
 
     @Transactional(readOnly = true)
     public CommonDtoList searchCrews() {
-        List<Crew> searchCrews = crewRepository.findAll();
-        validCrewsIsEmpty(searchCrews);
+        List<Crew> searchedCrews = crewRepository.findAll();
+        if(CollectionUtils.isEmpty(searchedCrews)) {
+            List<CrewSearchResponse> crewSearchResponses = new ArrayList<>();
+            return new CommonDtoList(crewSearchResponses);
+        }
 
-        List<CrewSearchResponse> crewSearchResponses = searchCrews
+        List<CrewSearchResponse> crewSearchResponses = searchedCrews
                 .stream()
                 .map(CrewSearchResponse::from)
                 .collect(Collectors.toList());
@@ -37,15 +41,18 @@ public class CrewService {
     @Transactional(readOnly = true)
     public CrewDetailedResponse searchCrewById(Long crewId) {
 
-        return CrewDetailedResponse.from(validIsCrewExist(crewId));
+        return CrewDetailedResponse.from(validateIsCrewExist(crewId));
     }
 
     @Transactional(readOnly = true)
     public CommonDtoList searchCrewByName(String crewName) {
-        List<Crew> searchCrews = crewRepository.findCrewsByName(crewName);
-        validCrewsIsEmpty(searchCrews);
+        List<Crew> searchedCrews = crewRepository.findCrewsByName(crewName);
+        if(CollectionUtils.isEmpty(searchedCrews)) {
+            List<CrewSearchResponse> crewSearchResponses = new ArrayList<>();
+            return new CommonDtoList(crewSearchResponses);
+        }
 
-        List<CrewSearchResponse> crewSearchResponses = searchCrews
+        List<CrewSearchResponse> crewSearchResponses = searchedCrews
                 .stream()
                 .map(CrewSearchResponse::from)
                 .collect(Collectors.toList());
@@ -55,23 +62,23 @@ public class CrewService {
 
     @Transactional
     public void createCrew(CrewCreateRequest crewRequest) {
-        Member member = validMemberIsExist(crewRequest.getMemberId());
-        validDuplicateCrew(member);
-        validDuplicateName(crewRequest.getName());
+        Member member = validateMemberIsExist(crewRequest.getMemberId());
+        validateDuplicateCrew(member);
+        validateDuplicateName(crewRequest.getName());
 
         Crew saved = crewRepository.save(new Crew(crewRequest.getName(),
                 crewRequest.getDescription(),
                 crewRequest.getImage()));
 
-        member.addCrew(saved);
+        member.addCrew(saved, "captain");
     }
 
     @Transactional
     public void updateCrew(Long crewId, CrewUpdateRequest crewRequest) {
-        Member member = validMemberIsExist(crewRequest.getMemberId());
-        validCaptainAuthority(crewId, member, member.getCrew().getId());
-        validDuplicateName(crewRequest.getName());
-        Crew crew = validIsCrewExist(crewId);
+        Member member = validateMemberIsExist(crewRequest.getMemberId());
+        validateCaptainAuthority(crewId, member, member.getCrew().getId());
+        validateDuplicateName(crewRequest.getName());
+        Crew crew = validateIsCrewExist(crewId);
 
         crew.updateCrew(crewRequest.getName(),
                 crewRequest.getDescription(),
@@ -80,9 +87,9 @@ public class CrewService {
 
     @Transactional
     public void deleteCrew(Long crewId, CrewDeleteRequest crewRequest) {
-        Member member = validMemberIsExist(crewRequest.getMemberId());
-        validCaptainAuthority(crewId, member, member.getCrew().getId());
-        Crew crew = validIsCrewExist(crewId);
+        Member member = validateMemberIsExist(crewRequest.getMemberId());
+        validateCaptainAuthority(crewId, member, member.getCrew().getId());
+        Crew crew = validateIsCrewExist(crewId);
 
         member.removeCaptainAuthority();
         memberRepository.save(member);
@@ -92,34 +99,28 @@ public class CrewService {
         crewRepository.save(crew);
     }
 
-    private void validCrewsIsEmpty(List<Crew> searchCrews) {
-        if (CollectionUtils.isEmpty(searchCrews)) {
-            throw new IllegalStateException("크루가 존재하지 않습니다.");
-        }
-    }
-
-    private Crew validIsCrewExist(Long crewId) {
+    private Crew validateIsCrewExist(Long crewId) {
         return crewRepository.findById(crewId).orElseThrow(() -> new IllegalStateException("크루가 존재하지 않습니다."));
     }
 
-    private Member validMemberIsExist(Long memberId) {
+    private Member validateMemberIsExist(Long memberId) {
         return memberRepository.findById(memberId).orElseThrow(() -> new IllegalStateException("유저가 존재하지 않습니다."));
     }
 
-    private void validCaptainAuthority(Long crewId, Member member, Long findCrewId) {
+    private void validateCaptainAuthority(Long crewId, Member member, Long findCrewId) {
         if (!Objects.equals(crewId, findCrewId) || !Objects.equals(member.getCrewInfo().getRole(), "captain")) {
             throw new IllegalStateException("권한이 없습니다.");
         }
     }
 
-    private void validDuplicateCrew(Member member) {
+    private void validateDuplicateCrew(Member member) {
         if (Objects.equals(member.getCrewInfo().getRole(), "captain")) {
             throw new IllegalStateException("이미 크루를 소유하고 있습니다.");
         }
     }
 
-    private void validDuplicateName(String crewName) {
-        if (!Objects.isNull(crewRepository.findCrewByName(crewName))) {
+    private void validateDuplicateName(String crewName) {
+        if (!Objects.isNull(crewRepository.findCrewByName(crewName).orElse(null))) {
             throw new IllegalStateException("중복된 이름입니다.");
         }
     }

@@ -3,15 +3,14 @@ package com.calefit.crew;
 import com.calefit.crew.entity.Crew;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CrewRepository extends JpaRepository<Crew, Long> {
 
     @Query("SELECT c FROM Crew c WHERE c.name =?1")
-    Crew findCrewByName(String crewName);
+    Optional<Crew> findCrewByName(String crewName);
 
-    @Query("SELECT name FROM Crew WHERE name LIKE '%:crewName%'")
-    List<Crew> findCrewsByName(@Param("name") String crewName);
+    List<Crew> findCrewsByName(String crewName);
 }
