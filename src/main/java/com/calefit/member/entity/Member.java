@@ -51,10 +51,7 @@ public class Member extends BaseTime {
                   String password,
                   BodyInfo bodyInfo,
                   CrewInfo crewInfo,
-                  Crew crew,
-                  List<Schedule> schedules,
-                  List<Template> templates,
-                  List<Inbody> inbodies) {
+                  Crew crew) {
         this.id = id;
         this.email = email;
         this.nickname = nickname;
@@ -62,15 +59,12 @@ public class Member extends BaseTime {
         this.bodyInfo = bodyInfo;
         this.crewInfo = crewInfo;
         this.crew = crew;
-        this.schedules = schedules;
-        this.templates = templates;
-        this.inbodies = inbodies;
     }
 
-    public void addCrew(Crew crew) {
+    public void addCrew(Crew crew, String role) {
         this.crew = crew;
         crew.getMembers().add(this);
-        this.crewInfo = new CrewInfo(true, "captain");
+        this.crewInfo = new CrewInfo(true, role);
     }
 
     public void removeCaptainAuthority() {

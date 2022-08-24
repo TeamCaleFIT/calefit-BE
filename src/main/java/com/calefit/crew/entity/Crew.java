@@ -19,12 +19,12 @@ public class Crew extends BaseTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Boolean deleted;
+    private boolean deleted;
     private String name;
     private String description;
     private String image;
     private Integer memberCount;
-    private Long score;
+    private long score;
 
     @OneToMany(mappedBy = "crew")
     private List<Member> members = new ArrayList<>();
@@ -40,14 +40,12 @@ public class Crew extends BaseTime {
     }
 
     public Crew(Long id,
-                Boolean deleted,
+                boolean deleted,
                 String name,
                 String description,
                 String image,
                 Integer memberCount,
-                Long score,
-                List<Member> members,
-                List<CrewApplication> crewApplications) {
+                long score) {
         this.id = id;
         this.deleted = deleted;
         this.name = name;
@@ -55,8 +53,6 @@ public class Crew extends BaseTime {
         this.image = image;
         this.memberCount = memberCount;
         this.score = score;
-        this.members = members;
-        this.crewApplications = crewApplications;
     }
 
     public void updateCrew(String name, String description, String image) {
