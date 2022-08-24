@@ -1,6 +1,6 @@
 package com.calefit.member.entity;
 
-import com.calefit.common.domain.BaseTime;
+import com.calefit.common.base.BaseTime;
 import com.calefit.crew.entity.Crew;
 import com.calefit.inbody.entity.Inbody;
 import com.calefit.member.domain.BodyInfo;

@@ -1,6 +1,6 @@
 package com.calefit.crew.entity;
 
-import com.calefit.common.domain.BaseTime;
+import com.calefit.common.base.BaseTime;
 import com.calefit.member.entity.Member;
 import lombok.AccessLevel;
 import lombok.Getter;
