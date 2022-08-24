@@ -2,17 +2,16 @@ package com.calefit.member.entity;
 
 import com.calefit.common.domain.BaseTime;
 import com.calefit.crew.entity.Crew;
+import com.calefit.inbody.entity.Inbody;
 import com.calefit.member.domain.BodyInfo;
-import com.calefit.member.domain.Email;
-import com.calefit.member.domain.NickName;
-import com.calefit.member.domain.Password;
+import com.calefit.member.domain.CrewInfo;
 import com.calefit.template.entity.Template;
 import com.calefit.workout.entity.Schedule;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,27 +19,19 @@ import static javax.persistence.FetchType.LAZY;
 
 @Getter
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Embedded
-    private Email email;
-
-    @Embedded
-    private NickName nickName;
-
-    @Embedded
-    private Password password;
-
-    @Embedded
+    private String email;
+    private String nickname;
+    private String password;
     private BodyInfo bodyInfo;
 
-    private boolean isJoinedCrew;
-    private String role;
+    @Embedded
+    private CrewInfo crewInfo;
 
     @ManyToOne(fetch = LAZY)
     private Crew crew;
@@ -50,4 +41,33 @@ public class Member extends BaseTime {
 
     @OneToMany(mappedBy = "member")
     private List<Template> templates = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Inbody> inbodies = new ArrayList<>();
+
+    public Member(Long id,
+                  String email,
+                  String nickname,
+                  String password,
+                  BodyInfo bodyInfo,
+                  CrewInfo crewInfo,
+                  Crew crew) {
+        this.id = id;
+        this.email = email;
+        this.nickname = nickname;
+        this.password = password;
+        this.bodyInfo = bodyInfo;
+        this.crewInfo = crewInfo;
+        this.crew = crew;
+    }
+
+    public void addCrew(Crew crew, String role) {
+        this.crew = crew;
+        crew.getMembers().add(this);
+        this.crewInfo = new CrewInfo(true, role);
+    }
+
+    public void removeCaptainAuthority() {
+        this.crewInfo = new CrewInfo(false, null);
+    }
 }
