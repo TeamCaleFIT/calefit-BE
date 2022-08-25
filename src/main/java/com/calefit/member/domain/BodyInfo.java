@@ -10,6 +10,11 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class BodyInfo {
 
-    private String height;
-    private String body_weight;
+    private Double height;
+    private Double bodyWeight;
+
+    public BodyInfo(Double height, Double bodyWeight) {
+        this.height = height;
+        this.bodyWeight = bodyWeight;
+    }
 }

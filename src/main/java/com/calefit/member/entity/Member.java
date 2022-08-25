@@ -47,16 +47,10 @@ public class Member extends BaseTime {
 
     public Member(String email,
                   String nickname,
-                  String password,
-                  BodyInfo bodyInfo,
-                  CrewInfo crewInfo,
-                  Crew crew) {
+                  String password) {
         this.email = email;
         this.nickname = nickname;
         this.password = password;
-        this.bodyInfo = bodyInfo;
-        this.crewInfo = crewInfo;
-        this.crew = crew;
     }
 
     public void addCrew(Crew crew, String role) {
