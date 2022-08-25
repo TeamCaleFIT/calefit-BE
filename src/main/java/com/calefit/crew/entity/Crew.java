@@ -39,14 +39,12 @@ public class Crew extends BaseTime {
         this.memberCount = 1;
     }
 
-    public Crew(Long id,
-                boolean deleted,
+    public Crew(boolean deleted,
                 String name,
                 String description,
                 String image,
                 Integer memberCount,
                 long score) {
-        this.id = id;
         this.deleted = deleted;
         this.name = name;
         this.description = description;

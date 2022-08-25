@@ -45,14 +45,12 @@ public class Member extends BaseTime {
     @OneToMany(mappedBy = "member")
     private List<Inbody> inbodies = new ArrayList<>();
 
-    public Member(Long id,
-                  String email,
+    public Member(String email,
                   String nickname,
                   String password,
                   BodyInfo bodyInfo,
                   CrewInfo crewInfo,
                   Crew crew) {
-        this.id = id;
         this.email = email;
         this.nickname = nickname;
         this.password = password;
