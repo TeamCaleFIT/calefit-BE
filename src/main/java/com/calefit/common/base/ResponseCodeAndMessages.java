@@ -6,7 +6,8 @@ public enum ResponseCodeAndMessages implements CodeAndMessages {
     CREW_MODIFY_SUCCESS("CMS","수정이 완료되었습니다."),
 
     //Inbody
-    INBODY_CREATE_SUCCESS("ICS", "인바디를 등록하였습니다.");
+    INBODY_CREATE_SUCCESS("ICS", "인바디를 등록하였습니다."),
+    INBODY_SEARCH_SUCCESS("ISC", "인바디를 조회하였습니다.");
 
     private final String code;
     private final String message;
