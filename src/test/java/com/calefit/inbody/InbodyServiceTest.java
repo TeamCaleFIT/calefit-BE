@@ -221,4 +221,57 @@ class InbodyServiceTest {
             then(inbodyRepository).should(never()).deleteById(notExistInbodyId);
         }
     }
+
+    @Nested
+    @DisplayName("인바디 수정시")
+    class InbodyUpdate {
+
+        @Test
+        void 존재하는_인바디_id와_변경할_날짜_및_BodyComposition을_전달받으면_해당_정보로_인바디를_수정한다() {
+            //given
+            LocalDateTime measuredDateTime = LocalDateTime.of(1111, 1, 1, 1, 1);
+            BodyComposition bodyComposition = new BodyComposition(10.0, 10.0, 10.0);
+            Inbody inbody = createInbodyDummy(member, measuredDateTime, bodyComposition, 1L);
+
+            Long existInbodyId = 1L;
+
+            LocalDateTime updateDateTime = LocalDateTime.of(22222, 2, 2, 2, 2);
+            BodyComposition updateBodyComposition = new BodyComposition(50.0, 50.0, 50.0);
+            Inbody updateInbody = createInbodyDummy(member, updateDateTime, updateBodyComposition, existInbodyId);
+
+            given(inbodyRepository.findById(existInbodyId)).willReturn(Optional.of(inbody));
+
+            //when
+            inbodyService.updateInbody(existInbodyId, updateDateTime, updateBodyComposition);
+
+            //then
+            assertThat(existInbodyId).isEqualTo(updateInbody.getId());
+
+            assertThat(inbody.getMeasuredDateTime()).isEqualTo(updateDateTime);
+
+            assertThat(inbody.getBodyComposition().getMuscle()).isEqualTo(updateBodyComposition.getMuscle());
+            assertThat(inbody.getBodyComposition().getBodyWeight()).isEqualTo(updateBodyComposition.getBodyWeight());
+            assertThat(inbody.getBodyComposition().getBodyWeight()).isEqualTo(updateBodyComposition.getBodyWeight());
+
+            then(inbodyRepository).should(times(1)).findById(existInbodyId);
+        }
+
+        @Test
+        void 존재하지_않는_인바디_id를_전달받으면_NotFoundInbodyException_예외가_발생하고_인바디_수정에_실패한다() {
+            //given
+            Long notExistInbodyId = 9999L;
+            LocalDateTime updateDateTime = LocalDateTime.of(22222, 2, 2, 2, 2);
+            BodyComposition updateBodyComposition = new BodyComposition(50.0, 50.0, 50.0);
+
+            given(inbodyRepository.findById(notExistInbodyId)).willThrow(new NotFoundInbodyException());
+
+            //when
+
+            //then
+            assertThatThrownBy(() -> inbodyService.updateInbody(notExistInbodyId, updateDateTime, updateBodyComposition))
+                .isInstanceOf(NotFoundInbodyException.class);
+
+            then(inbodyRepository).should(times(1)).findById(notExistInbodyId);
+        }
+    }
 }
