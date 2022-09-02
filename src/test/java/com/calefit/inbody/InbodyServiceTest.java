@@ -1,11 +1,13 @@
 package com.calefit.inbody;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
 import com.calefit.inbody.domain.BodyComposition;
 import com.calefit.inbody.dto.SearchInbodyResponse;
 import com.calefit.inbody.entity.Inbody;
+import com.calefit.inbody.exception.NotFoundInbodyException;
 import com.calefit.member.MemberRepository;
 import com.calefit.member.entity.Member;
 import com.calefit.member.exception.NotFoundMemberException;
@@ -63,7 +65,7 @@ class InbodyServiceTest {
             Inbody savedInbody = inbodyService.createInbody(member.getId(), measuredTime, bodyComposition);
 
             //then
-            assertThat(savedInbody).isEqualTo(newInbody);
+            assertThat(savedInbody.getId()).isEqualTo(newInbody.getId());
 
             then(memberRepository).should(times(1)).findById(member.getId());
             then(inbodyRepository).should(times(1)).save(newInbody);
@@ -146,6 +148,69 @@ class InbodyServiceTest {
 
             then(memberRepository).should(times(1)).findById(notExistMemberId);
             then(inbodyRepository).should(never()).save(newInbody);
+        }
+    }
+
+    @Nested
+    @DisplayName("인바디 삭제시")
+    class 인바디_삭제시 {
+
+        @Test
+        void 존재하는_멤버_id를_전달받으면_멤버_확인_후_인바디를_삭제한다() {
+            //given
+            Long inbodyIdForDelete = 1L;
+
+            given(memberRepository.existsById(member.getId())).willReturn(true);
+            given(inbodyRepository.existsById(inbodyIdForDelete)).willReturn(true);
+            doNothing().when(inbodyRepository).deleteById(inbodyIdForDelete);
+
+            //when
+            inbodyService.deleteInbody(inbodyIdForDelete, member.getId());
+
+            //then
+            assertDoesNotThrow(() -> new NotFoundMemberException());
+
+            then(memberRepository).should(times(1)).existsById(member.getId());
+            then(inbodyRepository).should(times(1)).existsById(inbodyIdForDelete);
+            then(inbodyRepository).should(times(1)).deleteById(inbodyIdForDelete);
+        }
+
+        @Test
+        void 존재하지_않는_회원_id를_전달받으면_NotFoundMemberException_예외가_발생하고_인바디_삭제에_실패한다() {
+            //given
+            Long notExistMemberId = 2L;
+            Long inbodyIdForDelete = 1L;
+
+            given(memberRepository.existsById(notExistMemberId)).willThrow(new NotFoundMemberException());
+
+            //when
+
+            //then
+            assertThatThrownBy(() -> inbodyService.deleteInbody(inbodyIdForDelete, notExistMemberId))
+                .isInstanceOf(NotFoundMemberException.class);
+
+            then(memberRepository).should(times(1)).existsById(notExistMemberId);
+            then(inbodyRepository).should(never()).existsById(inbodyIdForDelete);
+            then(inbodyRepository).should(never()).deleteById(inbodyIdForDelete);
+        }
+
+        @Test
+        void 존재하지_않는_인바디_id를_전달받으면_NotFoundInbodyException_예외가_발생하고_인바디_삭제에_실패한다() {
+            //given
+            Long notExistInbodyId = 1L;
+
+            given(memberRepository.existsById(member.getId())).willReturn(true);
+            given(inbodyRepository.existsById(notExistInbodyId)).willThrow(new NotFoundInbodyException());
+
+            //when
+
+            //then
+            assertThatThrownBy(() -> inbodyService.deleteInbody(notExistInbodyId, member.getId()))
+                .isInstanceOf(NotFoundInbodyException.class);
+
+            then(memberRepository).should(times(1)).existsById(member.getId());
+            then(inbodyRepository).should(times(1)).existsById(notExistInbodyId);
+            then(inbodyRepository).should(never()).deleteById(notExistInbodyId);
         }
     }
 }
