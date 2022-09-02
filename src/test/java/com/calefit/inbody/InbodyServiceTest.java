@@ -26,6 +26,7 @@ import org.junit.jupiter.api.Nested;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
@@ -44,7 +45,14 @@ class InbodyServiceTest {
 
     @BeforeEach
     void memberSetup() {
-        member = new Member(1L, "pio@gamil.com", "pio", "1234");
+        member = new Member("pio@gamil.com", "pio", "1234");
+        ReflectionTestUtils.setField(member, "id", 1L);
+    }
+
+    private Inbody createInbodyDummy(Member member, LocalDateTime measuredTime, BodyComposition bodyComposition, Long inbodyId) {
+        Inbody inbody = new Inbody(member, measuredTime, bodyComposition);
+        ReflectionTestUtils.setField(inbody, "id", inbodyId);
+        return inbody;
     }
 
     @Nested
@@ -56,7 +64,7 @@ class InbodyServiceTest {
             //given
             LocalDateTime measuredTime = LocalDateTime.of(2022, 8, 20, 13, 5);
             BodyComposition bodyComposition = new BodyComposition(30.0, 17.5, 65.0);
-            Inbody newInbody = new Inbody(member, measuredTime, bodyComposition);
+            Inbody newInbody = createInbodyDummy(member, measuredTime, bodyComposition, 1L);
 
             given(memberRepository.findById(member.getId())).willReturn(Optional.of(member));
             given(inbodyRepository.save(newInbody)).willReturn(newInbody);
