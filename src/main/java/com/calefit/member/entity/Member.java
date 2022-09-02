@@ -3,7 +3,6 @@ package com.calefit.member.entity;
 import com.calefit.common.base.BaseTime;
 import com.calefit.crew.entity.Crew;
 import com.calefit.inbody.entity.Inbody;
-import com.calefit.member.domain.BodyInfo;
 import com.calefit.member.domain.CrewInfo;
 import com.calefit.template.entity.Template;
 import com.calefit.workout.entity.Schedule;
@@ -30,9 +29,6 @@ public class Member extends BaseTime {
     private String password;
 
     @Embedded
-    private BodyInfo bodyInfo;
-
-    @Embedded
     private CrewInfo crewInfo;
 
     @ManyToOne(fetch = LAZY)
@@ -53,13 +49,7 @@ public class Member extends BaseTime {
         this.email = email;
         this.nickname = nickname;
         this.password = password;
-    }
-
-    public Member(Long id, String email, String nickname, String password) {
-        this.id = id;
-        this.email = email;
-        this.nickname = nickname;
-        this.password = password;
+        this.crewInfo = new CrewInfo(false, null);
     }
 
     public void addCrew(Crew crew, String role) {
