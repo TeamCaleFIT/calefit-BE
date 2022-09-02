@@ -10,4 +10,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Modifying(clearAutomatically = true)
     @Query("update Member m set m.crew.id = null where m.crew.id = ?1")
     void updateCrewIdOfMembers(Long crewId);
+
+    boolean existsMemberByEmail(String email);
+
+    boolean existsMemberByNickname(String nickname);
 }
