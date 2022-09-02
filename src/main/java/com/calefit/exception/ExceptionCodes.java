@@ -1,6 +1,8 @@
 package com.calefit.exception;
 
 import com.calefit.common.base.CodeAndMessages;
+import com.calefit.member.exception.NotAvailableMemberEmailException;
+import com.calefit.member.exception.NotAvailableMemberNicknameException;
 import com.calefit.member.exception.NotFoundMemberException;
 import lombok.Getter;
 
@@ -9,7 +11,9 @@ import java.util.Arrays;
 @Getter
 public enum ExceptionCodes implements CodeAndMessages {
     //Member
-    MEMBER_NOT_FOUND("MNF", "멤버 정보가 존재하지 않습니다.", NotFoundMemberException.class);
+    NOT_FOUND_MEMBER ("NFOM", "멤버 정보가 존재하지 않습니다.", NotFoundMemberException.class),
+    NOT_AVAILABLE_MEMBER_EMAIL ("NAME", "동일한 이메일이 존재합니다.", NotAvailableMemberEmailException.class),
+    NOT_AVAILABLE_MEMBER_NICKNAME ("NAMN", "동일한 닉네임이 존재합니다.", NotAvailableMemberNicknameException.class);
 
     private final String code;
     private final String message;
