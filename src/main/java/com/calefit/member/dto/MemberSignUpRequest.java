@@ -10,7 +10,6 @@ import javax.validation.constraints.Size;
 
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class MemberSignUpRequest {
 
     @NotBlank(message = "필수 입력값입니다.")

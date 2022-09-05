@@ -42,6 +42,8 @@ class MemberServiceTest {
     private Member member;
     private Long EXCEPTION_NUMBER;
 
+    private MemberSignUpRequest memberSignUpRequest;
+
     @BeforeEach
     void setUp() {
         member = new Member("2@c.com", "Vans", "1234");
@@ -93,11 +95,21 @@ class MemberServiceTest {
     @DisplayName("멤버 회원가입 요청시")
     class signUpMemberTest {
 
+        @BeforeEach
+        void setUpDto() {
+            memberSignUpRequest = new MemberSignUpRequest();
+            Field email = ReflectionUtils.findField(MemberSignUpRequest.class, "email");
+            Field nickname = ReflectionUtils.findField(MemberSignUpRequest.class, "nickname");
+            ReflectionUtils.makeAccessible(email);
+            ReflectionUtils.makeAccessible(nickname);
+            ReflectionUtils.setField(email,memberSignUpRequest,"pio@c.com");
+            ReflectionUtils.setField(nickname,memberSignUpRequest,"Pio");
+        }
+
         @Test
         void 요청_정보를_전달받으면_멤버_회원가입을_완료한다() {
 
             //given
-            MemberSignUpRequest memberSignUpRequest = new MemberSignUpRequest("pio@naver.com","Pio","1234");
             given(memberRepository.existsMemberByEmail(memberSignUpRequest.getEmail())).willReturn(false);
             given(memberRepository.existsMemberByNickname(memberSignUpRequest.getNickname())).willReturn(false);
             doReturn(null).when(memberRepository).save(any());
@@ -114,13 +126,13 @@ class MemberServiceTest {
         void 요청_정보중에_이메일_정보가_중복되면_예외를_발생시킨다() {
 
             //given
-            MemberSignUpRequest memberSignUpRequest = new MemberSignUpRequest("2@c.com","Pio","1234");
-            given(memberRepository.existsMemberByEmail(memberSignUpRequest.getEmail())).willThrow(new NotAvailableMemberEmailException());
+            String newMemberDuplicateEmail = "2@c.com";
+            given(memberRepository.existsMemberByEmail(newMemberDuplicateEmail)).willThrow(new NotAvailableMemberEmailException());
 
             //when
 
             //then
-            assertThatThrownBy(() -> memberRepository.existsMemberByEmail(memberSignUpRequest.getEmail())).isInstanceOf(NotAvailableMemberEmailException.class);
+            assertThatThrownBy(() -> memberRepository.existsMemberByEmail(newMemberDuplicateEmail)).isInstanceOf(NotAvailableMemberEmailException.class);
 
             then(memberRepository).should(times(1)).existsMemberByEmail(any());
             then(memberRepository).should(never()).existsMemberByNickname(any());
@@ -132,13 +144,13 @@ class MemberServiceTest {
         void 요청_정보중에_닉네임_정보가_중복되면_예외를_발생시킨다() {
 
             //given
-            MemberSignUpRequest memberSignUpRequest = new MemberSignUpRequest("2@c.com","Pio","1234");
-            given(memberRepository.existsMemberByNickname(memberSignUpRequest.getNickname())).willThrow(new NotAvailableMemberNicknameException());
+            String newMemberDuplicateNickname = "Vans";
+            given(memberRepository.existsMemberByNickname(newMemberDuplicateNickname)).willThrow(new NotAvailableMemberNicknameException());
 
             //when
 
             //then
-            assertThatThrownBy(() -> memberRepository.existsMemberByNickname(memberSignUpRequest.getNickname())).isInstanceOf(NotAvailableMemberNicknameException.class);
+            assertThatThrownBy(() -> memberRepository.existsMemberByNickname(newMemberDuplicateNickname)).isInstanceOf(NotAvailableMemberNicknameException.class);
 
             then(memberRepository).should(times(1)).existsMemberByNickname(any());
             then(memberRepository).should(never()).existsMemberByEmail(any());
