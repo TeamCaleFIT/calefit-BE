@@ -52,4 +52,12 @@ public class InbodyService {
         }
         inbodyRepository.deleteById(id);
     }
+
+    @Transactional
+    public void updateInbody(Long inbodyId, BodyComposition bodyComposition) {
+        Inbody findInbody = inbodyRepository.findById(inbodyId)
+            .orElseThrow(NotFoundInbodyException::new);
+
+        findInbody.changeInbody(bodyComposition);
+    }
 }

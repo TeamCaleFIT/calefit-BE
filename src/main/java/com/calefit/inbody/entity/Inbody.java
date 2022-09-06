@@ -37,4 +37,16 @@ public class Inbody {
         this.date = date;
         this.bodyComposition = bodyComposition;
     }
+
+    public void changeInbody(BodyComposition updateBodyComposition) {
+        if (updateBodyComposition.getMuscle() != null) {
+            bodyComposition.changeMuscle(updateBodyComposition.getMuscle());
+        }
+        if (updateBodyComposition.getBodyFat() != null) {
+            bodyComposition.changeBodyFat(updateBodyComposition.getBodyFat());
+        }
+        if (updateBodyComposition.getBodyWeight() != null) {
+            bodyComposition.changeBodyWeight(updateBodyComposition.getBodyWeight());
+        }
+    }
 }

@@ -8,12 +8,14 @@ import com.calefit.common.entity.CommonResponseEntity;
 import com.calefit.inbody.domain.BodyComposition;
 import com.calefit.inbody.dto.AddInbodyRequest;
 import com.calefit.inbody.dto.SearchInbodyResponse;
+import com.calefit.inbody.dto.UpdateInbodyRequest;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -55,6 +57,20 @@ public class InbodyController {
         inbodyService.deleteInbody(id, memberId);
 
         return new CommonResponseEntity<>(ResponseCodeAndMessages.INBODY_DELETE_SUCCESS, null, HttpStatus.NO_CONTENT);
+    }
+
+    @PatchMapping
+    public CommonResponseEntity<Void> updateInbody(@RequestBody UpdateInbodyRequest updateInbodyRequest) {
+        inbodyService.updateInbody(
+            updateInbodyRequest.getInbodyId(),
+            new BodyComposition(
+                updateInbodyRequest.getMuscle(),
+                updateInbodyRequest.getBodyFat(),
+                updateInbodyRequest.getBodyWeight()
+            )
+        );
+
+        return new CommonResponseEntity<>(ResponseCodeAndMessages.INBODY_UPDATE_SUCCESS, null, HttpStatus.OK);
     }
 
 }
