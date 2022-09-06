@@ -235,19 +235,18 @@ class InbodyServiceTest {
 
             Long existInbodyId = 1L;
 
-            LocalDateTime updateDateTime = LocalDateTime.of(22222, 2, 2, 2, 2);
             BodyComposition updateBodyComposition = new BodyComposition(50.0, 50.0, 50.0);
-            Inbody updateInbody = createInbodyDummy(member, updateDateTime, updateBodyComposition, existInbodyId);
+            Inbody updateInbody = createInbodyDummy(member, null, updateBodyComposition, existInbodyId);
 
             given(inbodyRepository.findById(existInbodyId)).willReturn(Optional.of(inbody));
 
             //when
-            inbodyService.updateInbody(existInbodyId, updateDateTime, updateBodyComposition);
+            inbodyService.updateInbody(existInbodyId, updateBodyComposition);
 
             //then
             assertThat(existInbodyId).isEqualTo(updateInbody.getId());
 
-            assertThat(inbody.getMeasuredDateTime()).isEqualTo(updateDateTime);
+            assertThat(inbody.getMeasuredDateTime()).isEqualTo(measuredDateTime);
 
             assertThat(inbody.getBodyComposition().getMuscle()).isEqualTo(updateBodyComposition.getMuscle());
             assertThat(inbody.getBodyComposition().getBodyWeight()).isEqualTo(updateBodyComposition.getBodyWeight());
@@ -260,7 +259,6 @@ class InbodyServiceTest {
         void 존재하지_않는_인바디_id를_전달받으면_NotFoundInbodyException_예외가_발생하고_인바디_수정에_실패한다() {
             //given
             Long notExistInbodyId = 9999L;
-            LocalDateTime updateDateTime = LocalDateTime.of(22222, 2, 2, 2, 2);
             BodyComposition updateBodyComposition = new BodyComposition(50.0, 50.0, 50.0);
 
             given(inbodyRepository.findById(notExistInbodyId)).willThrow(new NotFoundInbodyException());
@@ -268,7 +266,7 @@ class InbodyServiceTest {
             //when
 
             //then
-            assertThatThrownBy(() -> inbodyService.updateInbody(notExistInbodyId, updateDateTime, updateBodyComposition))
+            assertThatThrownBy(() -> inbodyService.updateInbody(notExistInbodyId, updateBodyComposition))
                 .isInstanceOf(NotFoundInbodyException.class);
 
             then(inbodyRepository).should(times(1)).findById(notExistInbodyId);
