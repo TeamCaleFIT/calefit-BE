@@ -26,15 +26,15 @@ public class Inbody {
     @ManyToOne(fetch = LAZY)
     private Member member;
 
-    private LocalDateTime date;
+    private LocalDateTime measuredDateTime;
 
     @Embedded
     private BodyComposition bodyComposition;
 
-    public Inbody(Member member, LocalDateTime date,
+    public Inbody(Member member, LocalDateTime measuredDateTime,
         BodyComposition bodyComposition) {
         this.member = member;
-        this.date = date;
+        this.measuredDateTime = measuredDateTime;
         this.bodyComposition = bodyComposition;
     }
 
