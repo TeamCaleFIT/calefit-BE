@@ -54,10 +54,10 @@ public class InbodyService {
     }
 
     @Transactional
-    public void updateInbody(Long inbodyId, BodyComposition bodyComposition) {
+    public void updateInbody(Long inbodyId, LocalDateTime measuredDateTime, BodyComposition bodyComposition) {
         Inbody findInbody = inbodyRepository.findById(inbodyId)
             .orElseThrow(NotFoundInbodyException::new);
 
-        findInbody.changeInbody(bodyComposition);
+        findInbody.changeInbody(measuredDateTime, bodyComposition);
     }
 }

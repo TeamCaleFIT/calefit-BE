@@ -38,15 +38,8 @@ public class Inbody {
         this.bodyComposition = bodyComposition;
     }
 
-    public void changeInbody(BodyComposition updateBodyComposition) {
-        if (updateBodyComposition.getMuscle() != null) {
-            bodyComposition.changeMuscle(updateBodyComposition.getMuscle());
-        }
-        if (updateBodyComposition.getBodyFat() != null) {
-            bodyComposition.changeBodyFat(updateBodyComposition.getBodyFat());
-        }
-        if (updateBodyComposition.getBodyWeight() != null) {
-            bodyComposition.changeBodyWeight(updateBodyComposition.getBodyWeight());
-        }
+    public void changeInbody(LocalDateTime measuredDateTime, BodyComposition updateBodyComposition) {
+        this.measuredDateTime = measuredDateTime;
+        this.bodyComposition = updateBodyComposition;
     }
 }
