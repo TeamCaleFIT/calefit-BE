@@ -1,7 +1,7 @@
 package com.calefit.crew.entity;
 
 import com.calefit.common.base.BaseTime;
-import com.calefit.member.entity.Member;
+import com.calefit.member.member.entity.Member;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,14 +39,12 @@ public class Crew extends BaseTime {
         this.memberCount = 1;
     }
 
-    public Crew(Long id,
-                boolean deleted,
+    public Crew(boolean deleted,
                 String name,
                 String description,
                 String image,
                 Integer memberCount,
                 long score) {
-        this.id = id;
         this.deleted = deleted;
         this.name = name;
         this.description = description;

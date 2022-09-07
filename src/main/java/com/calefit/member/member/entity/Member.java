@@ -1,10 +1,9 @@
-package com.calefit.member.entity;
+package com.calefit.member.member.entity;
 
 import com.calefit.common.base.BaseTime;
 import com.calefit.crew.entity.Crew;
 import com.calefit.inbody.entity.Inbody;
-import com.calefit.member.domain.BodyInfo;
-import com.calefit.member.domain.CrewInfo;
+import com.calefit.member.member.domain.CrewInfo;
 import com.calefit.template.entity.Template;
 import com.calefit.workout.entity.Schedule;
 import lombok.AccessLevel;
@@ -28,7 +27,6 @@ public class Member extends BaseTime {
     private String email;
     private String nickname;
     private String password;
-    private BodyInfo bodyInfo;
 
     @Embedded
     private CrewInfo crewInfo;
@@ -45,20 +43,13 @@ public class Member extends BaseTime {
     @OneToMany(mappedBy = "member")
     private List<Inbody> inbodies = new ArrayList<>();
 
-    public Member(Long id,
-                  String email,
+    public Member(String email,
                   String nickname,
-                  String password,
-                  BodyInfo bodyInfo,
-                  CrewInfo crewInfo,
-                  Crew crew) {
-        this.id = id;
+                  String password) {
         this.email = email;
         this.nickname = nickname;
         this.password = password;
-        this.bodyInfo = bodyInfo;
-        this.crewInfo = crewInfo;
-        this.crew = crew;
+        this.crewInfo = new CrewInfo(false, null);
     }
 
     public void addCrew(Crew crew, String role) {
