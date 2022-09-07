@@ -1,4 +1,4 @@
-package com.calefit.member.domain;
+package com.calefit.member.member.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

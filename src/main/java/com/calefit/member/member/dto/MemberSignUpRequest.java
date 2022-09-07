@@ -1,6 +1,5 @@
-package com.calefit.member.dto;
+package com.calefit.member.member.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

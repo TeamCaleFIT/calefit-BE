@@ -1,6 +1,6 @@
-package com.calefit.member.dto;
+package com.calefit.member.member.dto;
 
-import com.calefit.member.entity.Member;
+import com.calefit.member.member.entity.Member;
 import lombok.Getter;
 
 @Getter

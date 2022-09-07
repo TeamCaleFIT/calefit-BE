@@ -1,4 +1,4 @@
-package com.calefit.member.exception;
+package com.calefit.member.member.exception;
 
 import com.calefit.exception.BusinessException;
 import org.springframework.http.HttpStatus;

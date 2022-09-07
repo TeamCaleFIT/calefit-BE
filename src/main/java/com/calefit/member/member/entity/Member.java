@@ -1,9 +1,9 @@
-package com.calefit.member.entity;
+package com.calefit.member.member.entity;
 
 import com.calefit.common.base.BaseTime;
 import com.calefit.crew.entity.Crew;
 import com.calefit.inbody.entity.Inbody;
-import com.calefit.member.domain.CrewInfo;
+import com.calefit.member.member.domain.CrewInfo;
 import com.calefit.template.entity.Template;
 import com.calefit.workout.entity.Schedule;
 import lombok.AccessLevel;

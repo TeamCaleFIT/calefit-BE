@@ -1,11 +1,11 @@
-package com.calefit.member;
+package com.calefit.member.member;
 
-import com.calefit.member.dto.MemberSearchResponse;
-import com.calefit.member.dto.MemberSignUpRequest;
-import com.calefit.member.entity.Member;
-import com.calefit.member.exception.NotAvailableMemberEmailException;
-import com.calefit.member.exception.NotAvailableMemberNicknameException;
-import com.calefit.member.exception.NotFoundMemberException;
+import com.calefit.member.member.dto.MemberSearchResponse;
+import com.calefit.member.member.dto.MemberSignUpRequest;
+import com.calefit.member.member.entity.Member;
+import com.calefit.member.member.exception.NotAvailableMemberEmailException;
+import com.calefit.member.member.exception.NotAvailableMemberNicknameException;
+import com.calefit.member.member.exception.NotFoundMemberException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

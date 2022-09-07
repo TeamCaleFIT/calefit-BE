@@ -1,9 +1,9 @@
-package com.calefit.member;
+package com.calefit.member.member;
 
 import com.calefit.common.base.ResponseCodes;
 import com.calefit.common.entity.CommonResponseEntity;
-import com.calefit.member.dto.MemberSearchResponse;
-import com.calefit.member.dto.MemberSignUpRequest;
+import com.calefit.member.member.dto.MemberSearchResponse;
+import com.calefit.member.member.dto.MemberSignUpRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

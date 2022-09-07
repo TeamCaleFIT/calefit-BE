@@ -1,9 +1,9 @@
 package com.calefit.exception;
 
 import com.calefit.common.base.CodeAndMessages;
-import com.calefit.member.exception.NotAvailableMemberEmailException;
-import com.calefit.member.exception.NotAvailableMemberNicknameException;
-import com.calefit.member.exception.NotFoundMemberException;
+import com.calefit.member.member.exception.NotAvailableMemberEmailException;
+import com.calefit.member.member.exception.NotAvailableMemberNicknameException;
+import com.calefit.member.member.exception.NotFoundMemberException;
 import lombok.Getter;
 
 import java.util.Arrays;
