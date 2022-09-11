@@ -8,7 +8,7 @@ import lombok.Getter;
 public class SearchInbodyResponse {
 
     private Long id;
-    private LocalDateTime date;
+    private LocalDateTime measuredDateTime;
     private Double muscle;
     private Double bodyFat;
     private Double bodyWeight;
@@ -16,7 +16,7 @@ public class SearchInbodyResponse {
     public SearchInbodyResponse(Long id, LocalDateTime date, Double muscle, Double bodyFat,
         Double bodyWeight) {
         this.id = id;
-        this.date = date;
+        this.measuredDateTime = date;
         this.muscle = muscle;
         this.bodyFat = bodyFat;
         this.bodyWeight = bodyWeight;
@@ -24,7 +24,7 @@ public class SearchInbodyResponse {
 
     public static SearchInbodyResponse from(Inbody inbody) {
         return new SearchInbodyResponse(
-            inbody.getId(), inbody.getDate(), inbody.getBodyComposition().getMuscle(),
+            inbody.getId(), inbody.getMeasuredDateTime(), inbody.getBodyComposition().getMuscle(),
             inbody.getBodyComposition().getBodyFat(), inbody.getBodyComposition().getBodyWeight()
         );
     }
