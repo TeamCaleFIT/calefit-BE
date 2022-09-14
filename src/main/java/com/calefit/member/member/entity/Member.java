@@ -26,6 +26,7 @@ public class Member extends BaseTime {
     private Long id;
     private String email;
     private String nickname;
+    private String salt;
     private String password;
 
     @Embedded
@@ -45,9 +46,11 @@ public class Member extends BaseTime {
 
     public Member(String email,
                   String nickname,
+                  String salt,
                   String password) {
         this.email = email;
         this.nickname = nickname;
+        this.salt = salt;
         this.password = password;
         this.crewInfo = new CrewInfo(false, null);
     }

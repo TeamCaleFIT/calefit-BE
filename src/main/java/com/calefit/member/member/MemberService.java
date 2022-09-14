@@ -6,6 +6,7 @@ import com.calefit.member.member.entity.Member;
 import com.calefit.member.member.exception.NotAvailableMemberEmailException;
 import com.calefit.member.member.exception.NotAvailableMemberNicknameException;
 import com.calefit.member.member.exception.NotFoundMemberException;
+import com.calefit.member.member.util.PasswordEncoder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,24 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    @Transactional
+    public void signUpMember(MemberSignUpRequest memberRequest) {
+        validateDuplicateMemberInfo(memberRequest.getEmail(), memberRequest.getNickname());
+
+        String[] saltAndPassword = passwordEncoder.hashing(memberRequest.getPassword(), null);
+        String salt = saltAndPassword[0];
+        String password = saltAndPassword[1];
+
+        Member member = new Member(
+                memberRequest.getEmail(),
+                memberRequest.getNickname(),
+                salt,
+                password);
+
+        memberRepository.save(member);
+    }
 
     @Transactional(readOnly = true)
     public MemberSearchResponse searchMemberProfile(Long memberId) {
@@ -23,23 +42,11 @@ public class MemberService {
         return MemberSearchResponse.from(searchedMember);
     }
 
-    @Transactional
-    public void signUpMember(MemberSignUpRequest memberRequest) {
-        //TODO: 회원가입시, password 암호화처리 필요
-        validateDuplicateMemberInfo(memberRequest.getEmail(), memberRequest.getNickname());
-        Member member = new Member(
-                memberRequest.getEmail(),
-                memberRequest.getNickname(),
-                memberRequest.getPassword());
-
-        memberRepository.save(member);
-    }
-
     private void validateDuplicateMemberInfo(String email, String nickname) {
-        if(memberRepository.existsMemberByEmail(email)) {
+        if (memberRepository.existsMemberByEmail(email)) {
             throw new NotAvailableMemberEmailException();
         }
-        if(memberRepository.existsMemberByNickname(nickname)) {
+        if (memberRepository.existsMemberByNickname(nickname)) {
             throw new NotAvailableMemberNicknameException();
         }
     }
