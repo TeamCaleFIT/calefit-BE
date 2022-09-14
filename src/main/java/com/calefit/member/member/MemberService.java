@@ -7,7 +7,6 @@ import com.calefit.member.member.exception.NotAvailableMemberEmailException;
 import com.calefit.member.member.exception.NotAvailableMemberNicknameException;
 import com.calefit.member.member.exception.NotFoundMemberException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private final PasswordEncoder passwordEncoder;
 
     @Transactional(readOnly = true)
     public MemberSearchResponse searchMemberProfile(Long memberId) {
@@ -32,15 +30,17 @@ public class MemberService {
         Member member = new Member(
                 memberRequest.getEmail(),
                 memberRequest.getNickname(),
-                passwordEncoder.encode(memberRequest.getPassword()));
+                memberRequest.getPassword());
 
         memberRepository.save(member);
     }
 
     private void validateDuplicateMemberInfo(String email, String nickname) {
-        if(memberRepository.existsMemberByEmail(email))
+        if(memberRepository.existsMemberByEmail(email)) {
             throw new NotAvailableMemberEmailException();
-        if(memberRepository.existsMemberByNickname(nickname))
+        }
+        if(memberRepository.existsMemberByNickname(nickname)) {
             throw new NotAvailableMemberNicknameException();
+        }
     }
 }
