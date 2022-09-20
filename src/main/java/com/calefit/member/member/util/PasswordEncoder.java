@@ -28,8 +28,8 @@ public class PasswordEncoder {
         }
 
         for (int i = 0; i < 10000; i++) {
-            String tempTwo = byteToString(requestPassword) + salt;
-            md.update(tempTwo.getBytes());
+            String temp = byteToString(requestPassword) + salt;
+            md.update(temp.getBytes());
             requestPassword = md.digest();
         }
 
