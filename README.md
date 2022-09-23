@@ -10,7 +10,14 @@
 
 
 ## 📱Introduce
-App png / gif(작성중)
+<div align="center">
+
+|  <center>로그인 화면</center> |  <center>캘린더 화면</center> |  <center>운동일지 작성화면</center> |
+|:--------:|:--------:|:--------:|
+|<center><img src="https://media.discordapp.net/attachments/995917214257512478/1021781682048733275/Screen_Shot_2022-09-20_at_22.53.31.png" width="216" height="468"/></center> | <center><img src="https://media.discordapp.net/attachments/995917214257512478/1021781679980957696/Screen_Shot_2022-09-20_at_22.53.47.png" width="216" height="468"/></center> | <center><img src="https://media.discordapp.net/attachments/995917214257512478/1021781682707251330/Screen_Shot_2022-09-20_at_22.54.08.png" width="216" height="468"/></center>|
+
+</div>
+
 
 ## 🛠 Tech Stacks
 
