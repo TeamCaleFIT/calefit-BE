@@ -67,7 +67,7 @@ class InbodyServiceTest {
             Inbody newInbody = createInbodyDummy(member, measuredTime, bodyComposition, 1L);
 
             given(memberRepository.findById(member.getId())).willReturn(Optional.of(member));
-            given(inbodyRepository.save(newInbody)).willReturn(newInbody);
+            given(inbodyRepository.save(any())).willReturn(newInbody);
 
             //when
             Inbody savedInbody = inbodyService.createInbody(member.getId(), measuredTime, bodyComposition);
@@ -76,7 +76,7 @@ class InbodyServiceTest {
             assertThat(savedInbody.getId()).isEqualTo(newInbody.getId());
 
             then(memberRepository).should(times(1)).findById(member.getId());
-            then(inbodyRepository).should(times(1)).save(newInbody);
+            then(inbodyRepository).should(times(1)).save(any());
         }
 
         @Test
