@@ -1,14 +1,14 @@
 package com.calefit.unit.member;
 
-import com.calefit.member.member.MemberRepository;
-import com.calefit.member.member.MemberService;
-import com.calefit.member.member.dto.MemberSearchResponse;
-import com.calefit.member.member.dto.MemberSignUpRequest;
-import com.calefit.member.member.entity.Member;
-import com.calefit.member.member.exception.NotAvailableMemberEmailException;
-import com.calefit.member.member.exception.NotAvailableMemberNicknameException;
-import com.calefit.member.member.exception.NotFoundMemberException;
-import com.calefit.member.member.util.PasswordEncoder;
+import com.calefit.member.MemberRepository;
+import com.calefit.member.MemberService;
+import com.calefit.member.dto.MemberSearchResponse;
+import com.calefit.member.dto.MemberSignUpRequest;
+import com.calefit.member.entity.Member;
+import com.calefit.member.exception.NotAvailableMemberEmailException;
+import com.calefit.member.exception.NotAvailableMemberNicknameException;
+import com.calefit.member.exception.NotFoundMemberException;
+import com.calefit.member.util.PasswordEncoder;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

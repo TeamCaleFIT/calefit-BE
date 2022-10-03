@@ -1,13 +1,13 @@
-package com.calefit.member.member;
+package com.calefit.member;
 
-import com.calefit.member.member.dto.MemberLoginRequest;
-import com.calefit.member.member.dto.MemberSearchResponse;
-import com.calefit.member.member.dto.MemberSignUpRequest;
-import com.calefit.member.member.entity.Member;
-import com.calefit.member.member.exception.NotAvailableMemberEmailException;
-import com.calefit.member.member.exception.NotAvailableMemberLoginException;
-import com.calefit.member.member.exception.NotAvailableMemberNicknameException;
-import com.calefit.member.member.exception.NotFoundMemberException;
+import com.calefit.member.dto.MemberLoginRequest;
+import com.calefit.member.dto.MemberSearchResponse;
+import com.calefit.member.dto.MemberSignUpRequest;
+import com.calefit.member.entity.Member;
+import com.calefit.member.exception.NotAvailableMemberEmailException;
+import com.calefit.member.exception.NotAvailableMemberLoginException;
+import com.calefit.member.exception.NotAvailableMemberNicknameException;
+import com.calefit.member.exception.NotFoundMemberException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

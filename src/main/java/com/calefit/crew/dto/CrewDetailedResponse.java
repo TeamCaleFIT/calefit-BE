@@ -1,7 +1,7 @@
 package com.calefit.crew.dto;
 
 import com.calefit.crew.entity.Crew;
-import com.calefit.member.member.entity.Member;
+import com.calefit.member.entity.Member;
 import lombok.Getter;
 
 import java.util.List;

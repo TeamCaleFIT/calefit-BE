@@ -1,6 +1,6 @@
-package com.calefit.member.member.util;
+package com.calefit.member.util;
 
-import com.calefit.member.member.exception.NotFoundAlgorithmException;
+import com.calefit.member.exception.NotFoundAlgorithmException;
 import org.springframework.stereotype.Component;
 
 import java.security.MessageDigest;

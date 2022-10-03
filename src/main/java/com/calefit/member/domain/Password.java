@@ -1,6 +1,6 @@
-package com.calefit.member.member.domain;
+package com.calefit.member.domain;
 
-import com.calefit.member.member.exception.NotFoundAlgorithmException;
+import com.calefit.member.exception.NotFoundAlgorithmException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

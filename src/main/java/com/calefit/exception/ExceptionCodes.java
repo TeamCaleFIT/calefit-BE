@@ -1,7 +1,7 @@
 package com.calefit.exception;
 
 import com.calefit.common.base.CodeAndMessages;
-import com.calefit.member.member.exception.*;
+import com.calefit.member.exception.*;
 import lombok.Getter;
 
 import java.util.Arrays;
