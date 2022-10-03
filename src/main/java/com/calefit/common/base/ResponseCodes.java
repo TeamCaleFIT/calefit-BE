@@ -7,7 +7,8 @@ public enum ResponseCodes implements CodeAndMessages {
 
     //Member
     MEMBER_SEARCH_SUCCESS("MSES", "멤버 프로필 조회가 성공하였습니다."),
-    MEMBER_SIGNUP_SUCCESS("MSIS","멤버 회원가입이 성공하였습니다." );
+    MEMBER_SIGNUP_SUCCESS("MSIS","멤버 회원가입이 성공하였습니다." ),
+    MEMBER_LOGIN_SUCCESS("MLOS","로그인이 성공하였습니다." );
 
     private final String code;
     private final String message;

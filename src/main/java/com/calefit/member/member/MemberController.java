@@ -2,6 +2,7 @@ package com.calefit.member.member;
 
 import com.calefit.common.base.ResponseCodes;
 import com.calefit.common.entity.CommonResponseEntity;
+import com.calefit.member.member.dto.MemberLoginRequest;
 import com.calefit.member.member.dto.MemberSearchResponse;
 import com.calefit.member.member.dto.MemberSignUpRequest;
 import lombok.RequiredArgsConstructor;
@@ -27,5 +28,11 @@ public class MemberController {
     public CommonResponseEntity<Void> signUpMember(@Valid @RequestBody MemberSignUpRequest memberRequest) {
         memberService.signUpMember(memberRequest);
         return new CommonResponseEntity<>(ResponseCodes.MEMBER_SIGNUP_SUCCESS, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/login")
+    public CommonResponseEntity<Void> loginMember(@Valid @RequestBody MemberLoginRequest memberRequest) {
+        memberService.loginMember(memberRequest);
+        return new CommonResponseEntity<>(ResponseCodes.MEMBER_LOGIN_SUCCESS, HttpStatus.OK);
     }
 }

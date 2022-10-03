@@ -8,12 +8,12 @@ import com.calefit.member.member.entity.Member;
 import com.calefit.member.member.exception.NotAvailableMemberEmailException;
 import com.calefit.member.member.exception.NotAvailableMemberNicknameException;
 import com.calefit.member.member.exception.NotFoundMemberException;
+import com.calefit.member.member.util.PasswordEncoder;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
@@ -36,17 +36,15 @@ class MemberServiceTest {
     private MemberService memberService;
     @Mock
     private MemberRepository memberRepository;
-
     @Mock
     private PasswordEncoder passwordEncoder;
     private Member member;
     private Long EXCEPTION_NUMBER;
-
     private MemberSignUpRequest memberSignUpRequest;
 
     @BeforeEach
     void setUp() {
-        member = new Member("2@c.com", "Vans", "1234");
+        member = new Member("2@c.com", "Vans", "abcd", "12345678");
         Field idField = ReflectionUtils.findField(Member.class, "id");
         ReflectionUtils.makeAccessible(idField);
         ReflectionUtils.setField(Objects.requireNonNull(idField), member, 1L);
@@ -100,18 +98,23 @@ class MemberServiceTest {
             memberSignUpRequest = new MemberSignUpRequest();
             Field email = ReflectionUtils.findField(MemberSignUpRequest.class, "email");
             Field nickname = ReflectionUtils.findField(MemberSignUpRequest.class, "nickname");
+            Field password = ReflectionUtils.findField(MemberSignUpRequest.class, "password");
             ReflectionUtils.makeAccessible(email);
             ReflectionUtils.makeAccessible(nickname);
-            ReflectionUtils.setField(email,memberSignUpRequest,"pio@c.com");
-            ReflectionUtils.setField(nickname,memberSignUpRequest,"Pio");
+            ReflectionUtils.makeAccessible(password);
+            ReflectionUtils.setField(Objects.requireNonNull(email),memberSignUpRequest,"pio@c.com");
+            ReflectionUtils.setField(Objects.requireNonNull(nickname),memberSignUpRequest,"Pio");
+            ReflectionUtils.setField(Objects.requireNonNull(password),memberSignUpRequest,"12345678");
         }
 
         @Test
         void 요청_정보를_전달받으면_멤버_회원가입을_완료한다() {
 
             //given
+            String[] saltAndPassword = {"randomSaltNumber", "randomPasswordNumber"};
             given(memberRepository.existsMemberByEmail(memberSignUpRequest.getEmail())).willReturn(false);
             given(memberRepository.existsMemberByNickname(memberSignUpRequest.getNickname())).willReturn(false);
+            given(passwordEncoder.hashing(memberSignUpRequest.getPassword(),null)).willReturn(saltAndPassword);
             doReturn(null).when(memberRepository).save(any());
 
             //when
