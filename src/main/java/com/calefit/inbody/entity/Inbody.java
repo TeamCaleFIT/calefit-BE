@@ -38,8 +38,7 @@ public class Inbody {
         this.bodyComposition = bodyComposition;
     }
 
-    public void changeInbody(LocalDateTime measuredDateTime, BodyComposition updateBodyComposition) {
-        this.measuredDateTime = measuredDateTime;
+    public void changeInbody(BodyComposition updateBodyComposition) {
         this.bodyComposition = updateBodyComposition;
     }
 }

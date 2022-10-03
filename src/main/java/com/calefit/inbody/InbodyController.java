@@ -63,7 +63,6 @@ public class InbodyController {
     public CommonResponseEntity<Void> updateInbody(@RequestBody UpdateInbodyRequest updateInbodyRequest) {
         inbodyService.updateInbody(
             updateInbodyRequest.getInbodyId(),
-            updateInbodyRequest.getMeasuredDateTime(),
             new BodyComposition(
                 updateInbodyRequest.getMuscle(),
                 updateInbodyRequest.getBodyFat(),
@@ -73,5 +72,4 @@ public class InbodyController {
 
         return new CommonResponseEntity<>(ResponseCodeAndMessages.INBODY_UPDATE_SUCCESS, null, HttpStatus.OK);
     }
-
 }
