@@ -1,9 +1,11 @@
-package com.calefit.inbody;
+package com.calefit.unit.inbody;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
+import com.calefit.inbody.InbodyRepository;
+import com.calefit.inbody.InbodyService;
 import com.calefit.inbody.domain.BodyComposition;
 import com.calefit.inbody.dto.SearchInbodyResponse;
 import com.calefit.inbody.entity.Inbody;

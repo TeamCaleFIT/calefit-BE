@@ -1,4 +1,4 @@
-package com.calefit.inbody;
+package com.calefit.docs;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
@@ -14,13 +14,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.calefit.inbody.InbodyController;
+import com.calefit.inbody.InbodyService;
 import com.calefit.inbody.domain.BodyComposition;
 import com.calefit.inbody.dto.AddInbodyRequest;
 import com.calefit.inbody.dto.SearchInbodyResponse;
 import com.calefit.inbody.dto.UpdateInbodyRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
