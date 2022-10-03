@@ -1,8 +1,6 @@
 package com.calefit.inbody;
 
-import static com.calefit.common.base.ResponseCodeAndMessages.INBODY_CREATE_SUCCESS;
-
-import com.calefit.common.base.ResponseCodeAndMessages;
+import com.calefit.common.base.ResponseCodes;
 import com.calefit.common.dto.CommonDtoList;
 import com.calefit.common.entity.CommonResponseEntity;
 import com.calefit.inbody.domain.BodyComposition;
@@ -42,21 +40,21 @@ public class InbodyController {
             )
         );
 
-        return new CommonResponseEntity<>(INBODY_CREATE_SUCCESS, null, HttpStatus.CREATED);
+        return new CommonResponseEntity<>(ResponseCodes.INBODY_CREATE_SUCCESS, null, HttpStatus.CREATED);
     }
 
     @GetMapping
     public CommonResponseEntity<CommonDtoList<SearchInbodyResponse>> listInboies(@RequestParam Long memberId) {
         List<SearchInbodyResponse> inbodies = inbodyService.listInbodies(memberId);
 
-        return new CommonResponseEntity<>(ResponseCodeAndMessages.INBODY_SEARCH_SUCCESS, new CommonDtoList<>(inbodies), HttpStatus.OK);
+        return new CommonResponseEntity<>(ResponseCodes.INBODY_SEARCH_SUCCESS, new CommonDtoList<>(inbodies), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public CommonResponseEntity<Void> deleteInbody(@PathVariable Long id, @RequestParam Long memberId) {
         inbodyService.deleteInbody(id, memberId);
 
-        return new CommonResponseEntity<>(ResponseCodeAndMessages.INBODY_DELETE_SUCCESS, null, HttpStatus.NO_CONTENT);
+        return new CommonResponseEntity<>(ResponseCodes.INBODY_DELETE_SUCCESS, null, HttpStatus.NO_CONTENT);
     }
 
     @PutMapping
@@ -70,6 +68,6 @@ public class InbodyController {
             )
         );
 
-        return new CommonResponseEntity<>(ResponseCodeAndMessages.INBODY_UPDATE_SUCCESS, null, HttpStatus.OK);
+        return new CommonResponseEntity<>(ResponseCodes.INBODY_UPDATE_SUCCESS, null, HttpStatus.OK);
     }
 }
