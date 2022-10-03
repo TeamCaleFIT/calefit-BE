@@ -4,6 +4,7 @@ import com.calefit.common.base.BaseTime;
 import com.calefit.crew.entity.Crew;
 import com.calefit.inbody.entity.Inbody;
 import com.calefit.member.member.domain.CrewInfo;
+import com.calefit.member.member.domain.Password;
 import com.calefit.template.entity.Template;
 import com.calefit.workout.entity.Schedule;
 import lombok.AccessLevel;
@@ -26,9 +27,8 @@ public class Member extends BaseTime {
     private Long id;
     private String email;
     private String nickname;
-    private String salt;
-    private String password;
-
+    @Embedded
+    private Password password;
     @Embedded
     private CrewInfo crewInfo;
 
@@ -46,12 +46,10 @@ public class Member extends BaseTime {
 
     public Member(String email,
                   String nickname,
-                  String salt,
                   String password) {
         this.email = email;
         this.nickname = nickname;
-        this.salt = salt;
-        this.password = password;
+        this.password = new Password(password, null);
         this.crewInfo = new CrewInfo(false, null);
     }
 
@@ -63,5 +61,9 @@ public class Member extends BaseTime {
 
     public void removeCaptainAuthority() {
         this.crewInfo = new CrewInfo(false, null);
+    }
+
+    public boolean isPasswordMatched(String requestPassword) {
+        return password.validatePassword(requestPassword);
     }
 }

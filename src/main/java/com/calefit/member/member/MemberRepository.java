@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Optional;
+
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
     @Modifying(clearAutomatically = true)
@@ -14,4 +16,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     boolean existsMemberByEmail(String email);
 
     boolean existsMemberByNickname(String nickname);
+
+    Optional<Member> findMemberByEmail(String email);
 }
