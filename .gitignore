@@ -38,3 +38,6 @@ out/
 
 ## application.properties
 application-local.yml
+
+## datatabse mock data
+/src/main/resources/database/data.sql
