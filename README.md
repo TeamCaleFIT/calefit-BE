@@ -48,4 +48,4 @@
 |  <center>AOS</center> |  <center>BE</center> |  <center>BE</center> |
 |:--------:|:--------:|:--------:|
 |<center><img src="https://user-images.githubusercontent.com/92678171/190983702-ea421120-ee7f-4e61-8e30-feb42fada9c8.png" width="100" height="100"/></center> | <center><img src="https://user-images.githubusercontent.com/92678171/190983816-a13c5fce-ae64-4c69-b834-cc9cd87c7c18.png" width="100" height="100"/></center> | <center><img src="https://user-images.githubusercontent.com/92678171/190983956-3cb67176-9217-43a7-ad1c-b2a2896fd532.png" width="100" height="100"/></center>|
-|<center>[조시](https://github.com/junseokseo9306) </center> | <center>[피오](https://github.com/NB993) </center> |<center>[반스](https://github.com/ffinn92) </center>|
+|<center>[조시()](https://github.com/junseokseo9306) </center> | <center>[피오(최재홍)](https://github.com/NB993) </center> |<center>[반스(송창훈)](https://github.com/ffinn92) </center>|
