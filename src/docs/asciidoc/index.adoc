@@ -1,20 +1,43 @@
+:toc: left
+
 ifndef::snippets[]
 :snippets: ./build/generated-snippets
 endif::[]
 
-== 인사하기
+[[Inbody_API]]
+## Inbody API
+[[Inbody_등록]]
+### Inbody 등록
+Request
+include::{snippets}/inbody/createInbody/http-request.adoc[]
+include::{snippets}/inbody/createInbody/request-fields.adoc[]
+Response
+include::{snippets}/inbody/createInbody/http-response.adoc[]
+include::{snippets}/inbody/createInbody/response-fields.adoc[]
 
-=== Request
+[[Inbody_조회]]
+### Inbody 조회
+Request
+include::{snippets}/inbody/listInbodies/http-request.adoc[]
+include::{snippets}/inbody/listInbodies/request-parameters.adoc[]
+Response
+include::{snippets}/inbody/listInbodies/http-response.adoc[]
+include::{snippets}/inbody/listInbodies/response-fields.adoc[]
 
-CURL:
-include::{snippets}/crew/curl-request.adoc[]
-
-Request Parameters:
-include::{snippets}/crew/http-request.adoc[]
-
-Request HTTP Example:
-include::{snippets}/crew/http-request.adoc[]
-
-=== Response
-Response:
-include::{snippets}/crew/http-response.adoc[]
+[[Inbody_수정]]
+### Inbody 수정
+Request
+include::{snippets}/inbody/updateInbody/http-request.adoc[]
+include::{snippets}/inbody/updateInbody/request-fields.adoc[]
+Response
+include::{snippets}/inbody/updateInbody/http-response.adoc[]
+include::{snippets}/inbody/updateInbody/response-fields.adoc[]
+[[Inbody_삭제]]
+### Inbody 삭제
+Request
+include::{snippets}/inbody/deleteInbody/http-request.adoc[]
+include::{snippets}/inbody/deleteInbody/path-parameters.adoc[]
+include::{snippets}/inbody/deleteInbody/request-parameters.adoc[]
+Response
+include::{snippets}/inbody/deleteInbody/http-response.adoc[]
+include::{snippets}/inbody/deleteInbody/response-fields.adoc[]

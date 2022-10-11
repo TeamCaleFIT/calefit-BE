@@ -1,7 +1,8 @@
 package com.calefit.exception;
 
 import com.calefit.common.base.CodeAndMessages;
-import com.calefit.member.member.exception.*;
+import com.calefit.inbody.exception.NotFoundInbodyException;
+import com.calefit.member.exception.*;
 import lombok.Getter;
 
 import java.util.Arrays;
@@ -13,7 +14,10 @@ public enum ExceptionCodes implements CodeAndMessages {
     NOT_FOUND_ALGORITHM("NFAL", "현재 환경에서 암호화 처리기능을 사용할 수 없습니다.", NotFoundAlgorithmException.class),
     NOT_AVAILABLE_MEMBER_EMAIL("NAME", "동일한 이메일이 존재합니다.", NotAvailableMemberEmailException.class),
     NOT_AVAILABLE_MEMBER_NICKNAME("NAMN", "동일한 닉네임이 존재합니다.", NotAvailableMemberNicknameException.class),
-    NOT_AVAILABLE_MEMBER_LOGIN("NAML", "로그인이 실패하였습니다.", NotAvailableMemberLoginException.class);
+    NOT_AVAILABLE_MEMBER_LOGIN("NAML", "로그인이 실패하였습니다.", NotAvailableMemberLoginException.class),
+
+    //Inbody
+    NOT_FOUND_INBODY("NFOI", "인바디 정보개 존재하지 않습니다.", NotFoundInbodyException.class);
 
     private final String code;
     private final String message;

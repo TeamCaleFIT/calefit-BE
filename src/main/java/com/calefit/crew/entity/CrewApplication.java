@@ -1,7 +1,7 @@
 package com.calefit.crew.entity;
 
 import com.calefit.common.base.BaseTime;
-import com.calefit.member.member.entity.Member;
+import com.calefit.member.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
