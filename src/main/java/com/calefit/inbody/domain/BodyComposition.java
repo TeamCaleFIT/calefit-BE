@@ -18,16 +18,4 @@ public class BodyComposition {
         this.bodyFat = bodyFat;
         this.bodyWeight = bodyWeight;
     }
-
-    public void changeMuscle(Double muscle) {
-        this.muscle = muscle;
-    }
-
-    public void changeBodyFat(Double bodyFat) {
-        this.bodyFat = bodyFat;
-    }
-
-    public void changeBodyWeight(Double bodyWeight) {
-        this.bodyWeight = bodyWeight;
-    }
 }

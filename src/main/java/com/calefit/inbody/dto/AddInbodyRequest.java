@@ -22,7 +22,7 @@ public class AddInbodyRequest {
     private LocalDateTime measuredDateTime;
 
     @Positive(message = "골격근량을 양수 값을 입력해주세요.")
-    @NotNull(message = "인바디 측정 날짜 및 시간을 입력해주세요.")
+    @NotNull(message = "골격근량을 입력해주세요.")
     private Double muscle;
 
     @Positive(message = "체지방률은 양수 값을 입력해주세요.")
@@ -30,6 +30,6 @@ public class AddInbodyRequest {
     private Double bodyFat;
 
     @Positive(message = "몸무게는 양수 값을 입력해주세요.")
-    @NotNull(message = "몸무게를을 입력해주세요.")
+    @NotNull(message = "몸무게를 입력해주세요.")
     private Double bodyWeight;
 }

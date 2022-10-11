@@ -79,6 +79,7 @@ class InbodyServiceTest {
 
             then(memberRepository).should(times(1)).findById(member.getId());
             then(inbodyRepository).should(times(1)).save(any());
+            then(inbodyRepository).shouldHaveNoMoreInteractions();
         }
 
         @Test
@@ -99,6 +100,7 @@ class InbodyServiceTest {
 
             then(memberRepository).should(times(1)).findById(notExistMemberId);
             then(inbodyRepository).should(never()).save(newInbody);
+            then(inbodyRepository).shouldHaveNoMoreInteractions();
         }
     }
 
@@ -138,6 +140,7 @@ class InbodyServiceTest {
 
             then(memberRepository).should(times(1)).existsById(member.getId());
             then(inbodyRepository).should(times(1)).findByMemberId(member.getId());
+            then(inbodyRepository).shouldHaveNoMoreInteractions();
         }
 
         @Test
@@ -158,6 +161,7 @@ class InbodyServiceTest {
 
             then(memberRepository).should(times(1)).findById(notExistMemberId);
             then(inbodyRepository).should(never()).save(newInbody);
+            then(inbodyRepository).shouldHaveNoMoreInteractions();
         }
     }
 
@@ -183,6 +187,7 @@ class InbodyServiceTest {
             then(memberRepository).should(times(1)).existsById(member.getId());
             then(inbodyRepository).should(times(1)).existsById(inbodyIdForDelete);
             then(inbodyRepository).should(times(1)).deleteById(inbodyIdForDelete);
+            then(inbodyRepository).shouldHaveNoMoreInteractions();
         }
 
         @Test
@@ -202,6 +207,7 @@ class InbodyServiceTest {
             then(memberRepository).should(times(1)).existsById(notExistMemberId);
             then(inbodyRepository).should(never()).existsById(inbodyIdForDelete);
             then(inbodyRepository).should(never()).deleteById(inbodyIdForDelete);
+            then(inbodyRepository).shouldHaveNoMoreInteractions();
         }
 
         @Test
@@ -221,6 +227,7 @@ class InbodyServiceTest {
             then(memberRepository).should(times(1)).existsById(member.getId());
             then(inbodyRepository).should(times(1)).existsById(notExistInbodyId);
             then(inbodyRepository).should(never()).deleteById(notExistInbodyId);
+            then(inbodyRepository).shouldHaveNoMoreInteractions();
         }
     }
 
@@ -254,6 +261,7 @@ class InbodyServiceTest {
             assertThat(inbody.getBodyComposition().getBodyWeight()).isEqualTo(updateBodyComposition.getBodyWeight());
 
             then(inbodyRepository).should(times(1)).findById(existInbodyId);
+            then(inbodyRepository).shouldHaveNoMoreInteractions();
         }
 
         @Test
@@ -271,6 +279,7 @@ class InbodyServiceTest {
                 .isInstanceOf(NotFoundInbodyException.class);
 
             then(inbodyRepository).should(times(1)).findById(notExistInbodyId);
+            then(inbodyRepository).shouldHaveNoMoreInteractions();
         }
     }
 }

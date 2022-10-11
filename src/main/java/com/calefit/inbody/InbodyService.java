@@ -29,6 +29,7 @@ public class InbodyService {
         return inbodyRepository.save(new Inbody(member, measuredDateTime, bodyComposition));
     }
 
+    @Transactional(readOnly = true)
     public List<SearchInbodyResponse> listInbodies(Long memberId) {
         //todo: pk아닌 회원의 유니크한 id로 조회하도록 변경
         if (!memberRepository.existsById(memberId)) {

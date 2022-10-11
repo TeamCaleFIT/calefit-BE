@@ -44,7 +44,7 @@ public class InbodyController {
     }
 
     @GetMapping
-    public CommonResponseEntity<CommonDtoList<SearchInbodyResponse>> listInboies(@RequestParam Long memberId) {
+    public CommonResponseEntity<CommonDtoList<SearchInbodyResponse>> searchInbodies(@RequestParam Long memberId) {
         List<SearchInbodyResponse> inbodies = inbodyService.listInbodies(memberId);
 
         return new CommonResponseEntity<>(ResponseCodes.INBODY_SEARCH_SUCCESS, new CommonDtoList<>(inbodies), HttpStatus.OK);
