@@ -26,13 +26,18 @@ public class MemberController {
 
     @PostMapping("/signUp")
     public CommonResponseEntity<Void> signUpMember(@Valid @RequestBody MemberSignUpRequest memberRequest) {
-        memberService.signUpMember(memberRequest);
+        memberService.signUpMember(
+                memberRequest.getEmail(),
+                memberRequest.getNickname(),
+                memberRequest.getPassword());
         return new CommonResponseEntity<>(ResponseCodes.MEMBER_SIGNUP_SUCCESS, HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
     public CommonResponseEntity<Void> loginMember(@Valid @RequestBody MemberLoginRequest memberRequest) {
-        memberService.loginMember(memberRequest);
+        memberService.loginMember(
+                memberRequest.getEmail(),
+                memberRequest.getPassword());
         return new CommonResponseEntity<>(ResponseCodes.MEMBER_LOGIN_SUCCESS, HttpStatus.OK);
     }
 }

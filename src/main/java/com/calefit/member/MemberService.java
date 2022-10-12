@@ -19,20 +19,20 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public void signUpMember(MemberSignUpRequest memberRequest) {
-        validateDuplicateMemberInfo(memberRequest.getEmail(), memberRequest.getNickname());
+    public void signUpMember(String email, String nickname, String password) {
+        validateDuplicateMemberInfo(email, nickname);
         Member member = new Member(
-                memberRequest.getEmail(),
-                memberRequest.getNickname(),
-                memberRequest.getPassword());
+                email,
+                nickname,
+                password);
 
         memberRepository.save(member);
     }
 
     @Transactional
-    public void loginMember(MemberLoginRequest memberRequest) {
-        Member member = memberRepository.findMemberByEmail(memberRequest.getEmail()).orElseThrow(NotFoundMemberException::new);
-        if(!member.isPasswordMatched(memberRequest.getPassword())) {
+    public void loginMember(String email, String password) {
+        Member member = memberRepository.findMemberByEmail(email).orElseThrow(NotFoundMemberException::new);
+        if(!member.isPasswordMatched(password)) {
             throw new NotAvailableMemberLoginException();
         }
     }
