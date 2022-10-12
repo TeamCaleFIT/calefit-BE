@@ -3,9 +3,9 @@ package com.calefit.unit.member;
 import com.calefit.member.MemberRepository;
 import com.calefit.member.MemberService;
 import com.calefit.member.dto.MemberSearchResponse;
-import com.calefit.member.dto.MemberSignUpRequest;
 import com.calefit.member.entity.Member;
 import com.calefit.member.exception.NotAvailableMemberEmailException;
+import com.calefit.member.exception.NotAvailableMemberLoginException;
 import com.calefit.member.exception.NotAvailableMemberNicknameException;
 import com.calefit.member.exception.NotFoundMemberException;
 import org.junit.jupiter.api.*;
@@ -36,7 +36,6 @@ class MemberServiceTest {
     @Mock
     private MemberRepository memberRepository;
     private Member member;
-    private Long EXCEPTION_NUMBER;
 
     @BeforeEach
     void setUp() {
@@ -72,13 +71,13 @@ class MemberServiceTest {
         void 존재하지_않는_멤버Id를_전달받으면_예외를_발생_시킨다() {
 
             //given
-            EXCEPTION_NUMBER = 2L;
-            given(memberRepository.findById(EXCEPTION_NUMBER)).willThrow(new NotFoundMemberException());
+            Long notExistMemberId = 2L;
+            given(memberRepository.findById(notExistMemberId)).willThrow(new NotFoundMemberException());
 
             //when
 
             //then
-            assertThatThrownBy(() -> memberRepository.findById(EXCEPTION_NUMBER)).isInstanceOf(NotFoundMemberException.class);
+            assertThatThrownBy(() -> memberRepository.findById(notExistMemberId)).isInstanceOf(NotFoundMemberException.class);
 
             then(memberRepository).should(times(1)).findById(any());
             then(memberRepository).shouldHaveNoMoreInteractions();
@@ -141,6 +140,59 @@ class MemberServiceTest {
             then(memberRepository).should(times(1)).existsMemberByNickname(any());
             then(memberRepository).should(never()).existsMemberByEmail(any());
             then(memberRepository).should(never()).save(any());
+            then(memberRepository).shouldHaveNoMoreInteractions();
+        }
+    }
+
+    @Nested
+    @DisplayName("멤버 로그인입 요청시")
+    class loginMemberTest {
+
+        @Test
+        void 전달받은_멤버Id와_Password가_해당_멤버의_Password와_일치하면_로그인을_완료한다() {
+
+            //given
+            String email = "2@c.com";
+            String matchedPassword = "12345678";
+            given(memberRepository.findMemberByEmail(email)).willReturn(Optional.of(member));
+
+            //when
+            memberService.loginMember(email, matchedPassword);
+
+            //then
+            then(memberRepository).should(times(1)).findMemberByEmail(email);
+            then(memberRepository).shouldHaveNoMoreInteractions();
+        }
+
+        @Test
+        void 전달받은_멤버Id와_Password가_해당_멤버의_Password와_일치하지_않으면_예외를_발생시킨다() {
+
+            //given
+            String email = "2@c.com";
+            String unmatchedPassword = "unmatchedPassword123";
+            given(memberRepository.findMemberByEmail(email)).willReturn(Optional.of(member));
+
+            //when
+            assertThatThrownBy(() -> memberService.loginMember(email, unmatchedPassword)).isInstanceOf(NotAvailableMemberLoginException.class);
+
+            //then
+            then(memberRepository).should(times(1)).findMemberByEmail(email);
+            then(memberRepository).shouldHaveNoMoreInteractions();
+        }
+
+        @Test
+        void 존재하지_않는_멤버Id를_전달받으면_예외를_발생_시킨다() {
+
+            //given
+            String notExistMemberEmail = "notExistEmail@c.com";
+            given(memberRepository.findMemberByEmail(notExistMemberEmail)).willThrow(new NotFoundMemberException());
+
+            //when
+
+            //then
+            assertThatThrownBy(() -> memberRepository.findMemberByEmail(notExistMemberEmail)).isInstanceOf(NotFoundMemberException.class);
+
+            then(memberRepository).should(times(1)).findMemberByEmail(any());
             then(memberRepository).shouldHaveNoMoreInteractions();
         }
     }
