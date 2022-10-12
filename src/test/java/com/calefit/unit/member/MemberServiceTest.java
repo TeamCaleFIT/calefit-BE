@@ -8,7 +8,6 @@ import com.calefit.member.entity.Member;
 import com.calefit.member.exception.NotAvailableMemberEmailException;
 import com.calefit.member.exception.NotAvailableMemberNicknameException;
 import com.calefit.member.exception.NotFoundMemberException;
-import com.calefit.member.util.PasswordEncoder;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -36,15 +35,12 @@ class MemberServiceTest {
     private MemberService memberService;
     @Mock
     private MemberRepository memberRepository;
-    @Mock
-    private PasswordEncoder passwordEncoder;
     private Member member;
     private Long EXCEPTION_NUMBER;
-    private MemberSignUpRequest memberSignUpRequest;
 
     @BeforeEach
     void setUp() {
-        member = new Member("2@c.com", "Vans", "abcd", "12345678");
+        member = new Member("2@c.com", "Vans", "12345678");
         Field idField = ReflectionUtils.findField(Member.class, "id");
         ReflectionUtils.makeAccessible(idField);
         ReflectionUtils.setField(Objects.requireNonNull(idField), member, 1L);
@@ -93,32 +89,19 @@ class MemberServiceTest {
     @DisplayName("멤버 회원가입 요청시")
     class signUpMemberTest {
 
-        @BeforeEach
-        void setUpDto() {
-            memberSignUpRequest = new MemberSignUpRequest();
-            Field email = ReflectionUtils.findField(MemberSignUpRequest.class, "email");
-            Field nickname = ReflectionUtils.findField(MemberSignUpRequest.class, "nickname");
-            Field password = ReflectionUtils.findField(MemberSignUpRequest.class, "password");
-            ReflectionUtils.makeAccessible(email);
-            ReflectionUtils.makeAccessible(nickname);
-            ReflectionUtils.makeAccessible(password);
-            ReflectionUtils.setField(Objects.requireNonNull(email),memberSignUpRequest,"pio@c.com");
-            ReflectionUtils.setField(Objects.requireNonNull(nickname),memberSignUpRequest,"Pio");
-            ReflectionUtils.setField(Objects.requireNonNull(password),memberSignUpRequest,"12345678");
-        }
-
         @Test
         void 요청_정보를_전달받으면_멤버_회원가입을_완료한다() {
 
             //given
-            String[] saltAndPassword = {"randomSaltNumber", "randomPasswordNumber"};
-            given(memberRepository.existsMemberByEmail(memberSignUpRequest.getEmail())).willReturn(false);
-            given(memberRepository.existsMemberByNickname(memberSignUpRequest.getNickname())).willReturn(false);
-            given(passwordEncoder.hashing(memberSignUpRequest.getPassword(),null)).willReturn(saltAndPassword);
+            String email = "vans@c.com";
+            String nickname = "반스";
+            String password = "12345678";
+            given(memberRepository.existsMemberByEmail(email)).willReturn(false);
+            given(memberRepository.existsMemberByNickname(nickname)).willReturn(false);
             doReturn(null).when(memberRepository).save(any());
 
             //when
-            memberService.signUpMember(memberSignUpRequest);
+            memberService.signUpMember(email, nickname, password);
 
             //then
             then(memberRepository).should(times(1)).save(any());
