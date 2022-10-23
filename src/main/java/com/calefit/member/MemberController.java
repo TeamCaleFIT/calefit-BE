@@ -19,8 +19,8 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/{id}")
-    public CommonResponseEntity<MemberSearchResponse> searchMemberProfileById(@PathVariable("id") Long memberId) {
-        MemberSearchResponse memberSearchResponse = memberService.searchMemberProfile(memberId);
+    public CommonResponseEntity<MemberSearchResponse> searchMemberProfileById(@PathVariable("id") Long Id) {
+        MemberSearchResponse memberSearchResponse = memberService.searchMemberProfile(Id);
         return new CommonResponseEntity<>(ResponseCodes.MEMBER_SEARCH_SUCCESS, memberSearchResponse, HttpStatus.OK);
     }
 
