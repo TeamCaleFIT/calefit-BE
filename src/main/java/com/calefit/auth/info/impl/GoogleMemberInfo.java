@@ -1,12 +1,13 @@
 package com.calefit.auth.info.impl;
 
+import com.calefit.auth.ProviderType;
 import com.calefit.auth.info.OAuthMemberInfo;
 
 import java.util.Map;
 
 public class GoogleMemberInfo extends OAuthMemberInfo {
 
-//    private ProviderType providerType = ProviderType.valueOf("GOOGLE");
+    private ProviderType providerType = ProviderType.valueOf("GOOGLE");
 
     public GoogleMemberInfo(Map<String, Object> attributes) {
         super(attributes);
@@ -32,8 +33,8 @@ public class GoogleMemberInfo extends OAuthMemberInfo {
         return (String) attributes.get("picture");
     }
 
-//    @Override
-//    public ProviderType getProviderType() {
-//        return providerType;
-//    }
+    @Override
+    public ProviderType getProviderType() {
+        return providerType;
+    }
 }

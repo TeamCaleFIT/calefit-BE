@@ -1,5 +1,6 @@
 package com.calefit.auth.info;
 
+import com.calefit.auth.ProviderType;
 import com.calefit.member.entity.Member;
 
 import java.util.Map;
@@ -7,7 +8,6 @@ import java.util.Map;
 public abstract class OAuthMemberInfo {
 
     protected Map<String, Object> attributes;
-//    protected ProviderType providerType;
 
     public OAuthMemberInfo(Map<String, Object> attributes) {
         this.attributes = attributes;
@@ -25,9 +25,9 @@ public abstract class OAuthMemberInfo {
 
     public abstract String getProfileUrl();
 
-//    public abstract ProviderType getProviderType();
+    public abstract ProviderType getProviderType();
 
     public Member toMember() {
-        return new Member(getMemberId(), getEmail(), getName());
+        return new Member(getMemberId(), getEmail(), getName(), getProfileUrl() ,getProviderType());
     }
 }

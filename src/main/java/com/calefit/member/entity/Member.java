@@ -35,8 +35,8 @@ public class Member extends BaseTime {
     @Enumerated(EnumType.STRING)
     @NotNull
     private ProviderType providerType;
-    @Embedded
-    private Password password;
+//    @Embedded
+//    private Password password;
     @Embedded
     private CrewInfo crewInfo;
 
@@ -52,12 +52,16 @@ public class Member extends BaseTime {
     @OneToMany(mappedBy = "member")
     private List<Inbody> inbodies = new ArrayList<>();
 
-    public Member(String email,
+    public Member(String memberId,
+                  String email,
                   String nickname,
-                  String password) {
+                  String profileUrl,
+                  ProviderType providerType) {
+        this.memberId = memberId;
         this.email = email;
         this.nickname = nickname;
-        this.password = new Password(password, null);
+        this.profileUrl = profileUrl;
+        this.providerType = providerType;
         this.crewInfo = new CrewInfo(false, null);
     }
 
@@ -78,7 +82,7 @@ public class Member extends BaseTime {
         this.crewInfo = new CrewInfo(false, null);
     }
 
-    public boolean isPasswordMatched(String requestPassword) {
-        return password.validatePassword(requestPassword);
-    }
+//    public boolean isPasswordMatched(String requestPassword) {
+//        return password.validatePassword(requestPassword);
+//    }
 }

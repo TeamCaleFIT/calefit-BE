@@ -1,12 +1,13 @@
 package com.calefit.auth.info.impl;
 
+import com.calefit.auth.ProviderType;
 import com.calefit.auth.info.OAuthMemberInfo;
 
 import java.util.Map;
 
 public class NaverMemberInfo extends OAuthMemberInfo {
 
-//    private ProviderType providerType = ProviderType.valueOf("NAVER");
+    private ProviderType providerType = ProviderType.valueOf("NAVER");
 
     public NaverMemberInfo(Map<String, Object> attributes) {
         super(attributes);
@@ -53,8 +54,8 @@ public class NaverMemberInfo extends OAuthMemberInfo {
         return (String) response.get("profile_image");
     }
 
-//    @Override
-//    public ProviderType getProviderType() {
-//        return providerType;
-//    }
+    @Override
+    public ProviderType getProviderType() {
+        return providerType;
+    }
 }

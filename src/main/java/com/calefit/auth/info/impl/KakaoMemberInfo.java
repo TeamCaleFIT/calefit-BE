@@ -1,12 +1,14 @@
 package com.calefit.auth.info.impl;
 
+import com.calefit.auth.ProviderType;
 import com.calefit.auth.info.OAuthMemberInfo;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class KakaoMemberInfo extends OAuthMemberInfo {
 
-//    private ProviderType providerType = ProviderType.valueOf("KAKAO");
+    private ProviderType providerType = ProviderType.valueOf("KAKAO");
 
     public KakaoMemberInfo(Map<String, Object> attributes) {
         super(attributes);
@@ -24,12 +26,13 @@ public class KakaoMemberInfo extends OAuthMemberInfo {
             return null;
         }
 
-        return (String) properties.get("profile_nickname"); //name은 선택 제공정보, profile_nickname은 필수 제공 정보
+        return (String) properties.get("nickname");
     }
 
     @Override
     public String getEmail() {
-        return (String) attributes.get("account_email");
+        Map kakao_account = (HashMap) attributes.get("kakao_account");
+        return (String) kakao_account.get("email");
     }
 
     @Override
@@ -42,9 +45,9 @@ public class KakaoMemberInfo extends OAuthMemberInfo {
         return (String) properties.get("profile_image");
     }
 
-//    @Override
-//    public ProviderType getProviderType() {
-//        return providerType;
-//    }
+    @Override
+    public ProviderType getProviderType() {
+        return providerType;
+    }
 }
 
