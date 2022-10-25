@@ -2,12 +2,15 @@ package com.calefit.auth;
 
 import com.calefit.auth.domain.OAuthProperties;
 import com.calefit.auth.domain.provider.OAuthProvider;
+import com.calefit.auth.exception.InvalidTokenException;
+import com.calefit.auth.exception.NotFoundTokenException;
 import com.calefit.auth.info.OAuthMemberInfo;
 import com.calefit.auth.info.OAuthMemberInfoFactory;
 import com.calefit.auth.jwt.JwtHandler;
 import com.calefit.auth.jwt.Token;
 import com.calefit.member.MemberRepository;
 import com.calefit.member.entity.Member;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -23,6 +26,7 @@ import org.springframework.web.client.RestTemplate;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static com.calefit.auth.jwt.JwtConst.*;
 
@@ -50,13 +54,20 @@ public class LoginService {
 
         String refreshToken = jwtHandler.createToken(oAuthMemberInfo.getMemberId(), REFRESH_TOKEN_EXPIRATION_PERIOD);
         redisTemplate.opsForValue().set(oAuthMemberInfo.getMemberId(), refreshToken);
-        //레디스에 리프레시 토큰을 저장하고 리프레시 토큰 만료기간에 맞춰 레디스에서도 삭제되도록 함.
         redisTemplate.expire(oAuthMemberInfo.getMemberId(), Duration.ofSeconds(REFRESH_TOKEN_EXPIRATION_PERIOD));
 
         return new Token(
                 jwtHandler.createToken(oAuthMemberInfo.getMemberId(), ACCESS_TOKEN_EXPIRATION_PERIOD),
                 refreshToken
         );
+    }
+
+    public void deleteStoredToken(String refreshToken) {
+        verifyHeader(refreshToken);
+        String parsedRefreshToken = refreshToken.split("Bearer ")[1];
+        Claims claims = jwtHandler.decodeJwt(parsedRefreshToken);
+        String memberId = claims.get("memberId", String.class);
+        redisTemplate.delete(memberId);
     }
 
     private OAuthAccessToken getOauthAccessToken(String code, OAuthProvider provider) {
@@ -106,5 +117,18 @@ public class LoginService {
                 .orElseGet(memberInfo::toMember);
 
         memberRepository.save(findMember);
+    }
+
+    private void verifyHeader(String refreshToken) {
+        if (Objects.isNull(refreshToken) || refreshToken.trim().isEmpty()) {
+            throw new NotFoundTokenException();
+        }
+        if (!refreshToken.startsWith(BEARER)) {
+            throw new InvalidTokenException();
+        }
+
+        if (refreshToken.contains("undefined")) {
+            throw new NotFoundTokenException();
+        }
     }
 }
