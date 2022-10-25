@@ -31,12 +31,25 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-            
+
+      - name: create mysql docker container  
+        run: |
+          sudo docker run -d --name vans -p 3306:3306 --env MYSQL_DATABASE=oauth --env MYSQL_ROOT_PASSWORD=1234 mysql:8.0.23
+        
+    
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-
+        
+      - name: docker check
+        run: |
+          docker ps
+          while ! docker exec vans mysql --user=root --password=1234 -e "SELECT 1" >/dev/null 2>&1; do 
+            sleep 2 
+            echo "waiting for mysql.."
+          done
+          
       - name: Test with Gradle
-        run: ./gradlew test
+        run: ./gradlew test --stacktrace
         
       - name: Noti Discord - Test Success
         uses: rjstone/discord-webhook-notify@v1
