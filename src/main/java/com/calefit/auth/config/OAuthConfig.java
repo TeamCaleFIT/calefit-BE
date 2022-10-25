@@ -8,7 +8,7 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @RequiredArgsConstructor
-@PropertySource(value = {"application-local.yml"}, factory = YmlLoadFactory.class)
+@PropertySource(value = "classpath:application-local.yml", factory = YmlLoadFactory.class)
 @EnableConfigurationProperties(OAuthProperties.class)
 public class OAuthConfig {
 

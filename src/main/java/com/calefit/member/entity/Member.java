@@ -35,8 +35,7 @@ public class Member extends BaseTime {
     @Enumerated(EnumType.STRING)
     @NotNull
     private ProviderType providerType;
-//    @Embedded
-//    private Password password;
+
     @Embedded
     private CrewInfo crewInfo;
 
