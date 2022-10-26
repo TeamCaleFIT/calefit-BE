@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [ "feature-authentication" ]
+    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
