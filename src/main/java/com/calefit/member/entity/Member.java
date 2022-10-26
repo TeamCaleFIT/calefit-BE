@@ -1,5 +1,6 @@
 package com.calefit.member.entity;
 
+import com.calefit.auth.ProviderType;
 import com.calefit.common.base.BaseTime;
 import com.calefit.crew.entity.Crew;
 import com.calefit.inbody.entity.Inbody;
@@ -7,6 +8,7 @@ import com.calefit.member.domain.CrewInfo;
 import com.calefit.member.domain.Password;
 import com.calefit.template.entity.Template;
 import com.calefit.workout.entity.Schedule;
+import com.sun.istack.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,10 +27,15 @@ public class Member extends BaseTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String memberId;
     private String email;
     private String nickname;
-    @Embedded
-    private Password password;
+    private String profileUrl;
+
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private ProviderType providerType;
+
     @Embedded
     private CrewInfo crewInfo;
 
@@ -44,12 +51,16 @@ public class Member extends BaseTime {
     @OneToMany(mappedBy = "member")
     private List<Inbody> inbodies = new ArrayList<>();
 
-    public Member(String email,
+    public Member(String memberId,
+                  String email,
                   String nickname,
-                  String password) {
+                  String profileUrl,
+                  ProviderType providerType) {
+        this.memberId = memberId;
         this.email = email;
         this.nickname = nickname;
-        this.password = new Password(password, null);
+        this.profileUrl = profileUrl;
+        this.providerType = providerType;
         this.crewInfo = new CrewInfo(false, null);
     }
 
@@ -59,11 +70,18 @@ public class Member extends BaseTime {
         this.crewInfo = new CrewInfo(true, role);
     }
 
+    public Member update(String email, String nickname, String profileUrl) {
+        this.email = email;
+        this.nickname = nickname;
+        this.profileUrl = profileUrl;
+        return this;
+    }
+
     public void removeCaptainAuthority() {
         this.crewInfo = new CrewInfo(false, null);
     }
 
-    public boolean isPasswordMatched(String requestPassword) {
-        return password.validatePassword(requestPassword);
-    }
+//    public boolean isPasswordMatched(String requestPassword) {
+//        return password.validatePassword(requestPassword);
+//    }
 }

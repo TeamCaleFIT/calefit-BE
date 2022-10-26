@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "feature-authentication" ]
   pull_request:
     branches: [ "main" ]
 
@@ -32,11 +32,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: create mysql docker container  
+      - name: create mysql docker container
         run: |
           sudo docker run -d --name vans -p 3306:3306 --env MYSQL_DATABASE=oauth --env MYSQL_ROOT_PASSWORD=1234 mysql:8.0.23
-        
-    
+
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
         
@@ -47,7 +46,7 @@ jobs:
             sleep 2 
             echo "waiting for mysql.."
           done
-          
+
       - name: Test with Gradle
         run: ./gradlew test --stacktrace
         

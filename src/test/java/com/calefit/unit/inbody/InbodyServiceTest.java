@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
+import com.calefit.auth.ProviderType;
 import com.calefit.inbody.InbodyRepository;
 import com.calefit.inbody.InbodyService;
 import com.calefit.inbody.domain.BodyComposition;
@@ -47,7 +48,7 @@ class InbodyServiceTest {
 
     @BeforeEach
     void memberSetup() {
-        member = new Member("pio@gamil.com", "pio", "1234");
+        member = new Member("2389174", "pio@naver.com", "pio", "pioFace.jpg", ProviderType.KAKAO);
         ReflectionTestUtils.setField(member, "id", 1L);
     }
 
