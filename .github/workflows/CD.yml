@@ -1,0 +1,56 @@
+name: CD
+
+on:
+  push:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  cd:
+    name:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Insert data source information into application.yml
+          run: |
+            sed -i "s|\${MYSQL_HOST}|$MYSQL_HOST|g" /src/main/resources/application-deploy.yml
+            sed -i "s|\${MYSQL_USERNAME}|$MYSQL_USERNAME|g" /src/main/resources/application-deploy.yml
+            sed -i "s|\${MYSQL_PASSWORD}|$MYSQL_PASSWORD|g" /src/main/resources/application-deploy.yml
+            sed -i "s|\${CLIENT_ID}|$CLIENT_ID|g" /src/main/resources/application-deploy.yml
+            sed -i "s|\${CLIENT_SECRET}|$CLIENT_SECRET|g" /src/main/resources/application-deploy.yml
+            sed -i "s|\${JWT_ISSUER}|$JWT_ISSUER|g" /src/main/resources/application-deploy.yml
+            sed -i "s|\${JWT_SECRET}|$JWT_SECRET|g" /src/main/resources/application-deploy.yml
+          env:
+            MYSQL_HOST: ${{ secrets.MYSQL_HOST }}
+            MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
+            MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+            CLIENT_ID: ${{ secrets.CLIENT_ID }}
+            CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+            JWT_ISSUER: ${{ secrets.JWT_ISSUER }}
+            JWT_SECRET: ${{ secrets.JWT_SECRET }}
+
+      # 도커 빌드(도커 이미지 생성)
+      - name: Docker build
+          run: |
+            docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+            docker build -t ${{ secrets.DOCKER_USERNAME }}/calefit-test .
+            docker push ${{ secrets.DOCKER_USERNAME }}/calefit-test
+            docker rmi ${{ secrets.DOCKER_USERNAME }}/calefit-test
+
+
+      # 도커 이미지 배포 및 실행(EC2 ubuntu20.04로 배포)
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.AWS_HOST_DNS }} #(생성한 인스턴스의 DNS주소)
+          username: ubuntu
+          key: ${{ secrets.SSH_PRIVATE_KEY }} #(인스턴스를 생성할 때 다운받은 pem키안에 값을 모두 복사해서 붙여넣기)
+          envs: GITHUB_SHA
+          script: |
+            sudo docker ps -a -q --filter "name=calefit-test" | grep -q . && docker stop calefit-test && docker rm calefit-test | true
+            sudo docker rmi ${{ secrets.DOCKER_USERNAME }}/calefit-test
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/calefit-test
+            sudo docker run -d -p 80:8080 --name calefit-test ${{ secrets.DOCKER_USERNAME }}/calefit-test
+            sudo docker rmi -f $(docker images -f "dangling=true" -q) || true
