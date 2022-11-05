@@ -14,7 +14,8 @@ jobs:
 
     steps:
       - name: check current directory
-        run: ls
+        run: |
+          ls
 
       - name: Insert data source information into application.yml
         run: |
