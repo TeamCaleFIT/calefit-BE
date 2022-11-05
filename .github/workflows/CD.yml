@@ -2,7 +2,7 @@ name: CD
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "test-test-workingDirectory" ]
 
 permissions:
   contents: read
@@ -13,6 +13,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Build with Gradle
+        run: ./gradlew bootJar
+
+      - name: check current directory
+        run: ls
+
       - name: Insert data source information into application.yml
         run: |
           sed -i "s|\${MYSQL_HOST}|$MYSQL_HOST|g" ./src/main/resources/application-deploy.yml
