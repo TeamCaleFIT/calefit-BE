@@ -14,10 +14,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: check current directory
-        run: |
-          ls
-        working-directory: ${{ env.working-directory }}
+#      - name: check current directory
+#        run: |
+#          ls
+#        working-directory: ${{ env.working-directory }}
 
       - name: Insert data source information into application.yml
         run: |
