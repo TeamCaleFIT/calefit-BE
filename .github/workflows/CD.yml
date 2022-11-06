@@ -9,16 +9,10 @@ permissions:
 
 jobs:
   cd:
-#    env:
-#      working-directory: ./
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
-#      - name: check current directory
-#        run: |
-#          ls
-#        working-directory: ${{ env.working-directory }}
 
       - name: Insert data source information into application.yml
         run: |
@@ -29,7 +23,6 @@ jobs:
           sed -i "s|\${CLIENT_SECRET}|$CLIENT_SECRET|g" ./src/main/resources/application-deploy.yml
           sed -i "s|\${JWT_ISSUER}|$JWT_ISSUER|g" ./src/main/resources/application-deploy.yml
           sed -i "s|\${JWT_SECRET}|$JWT_SECRET|g" ./src/main/resources/application-deploy.yml
-#        working-directory: ${{ env.working-directory }}
         env:
           MYSQL_HOST: ${{ secrets.MYSQL_HOST }}
           MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
@@ -39,6 +32,14 @@ jobs:
           JWT_ISSUER: ${{ secrets.JWT_ISSUER }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
+      # 프로젝트 빌드
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+        working-directory: ${{env.working-directory}}
+      - name: Build with Gradle
+        run: ./gradlew bootJar
+        working-directory: ${{env.working-directory}}
+
       # 도커 빌드(도커 이미지 생성)
       - name: Docker build
         run: |
@@ -46,7 +47,6 @@ jobs:
           docker build -t ${{ secrets.DOCKER_USERNAME }}/calefit-test .
           docker push ${{ secrets.DOCKER_USERNAME }}/calefit-test
           docker rmi ${{ secrets.DOCKER_USERNAME }}/calefit-test
-#        working-directory: ${{ env.working-directory }}
 
 
       # 도커 이미지 배포 및 실행(EC2 ubuntu20.04로 배포)
