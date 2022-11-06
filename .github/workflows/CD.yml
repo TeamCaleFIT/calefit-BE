@@ -9,11 +9,12 @@ permissions:
 
 jobs:
   cd:
-    env:
-      working-directory: ./src
+#    env:
+#      working-directory: ./
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v3
 #      - name: check current directory
 #        run: |
 #          ls
@@ -21,14 +22,14 @@ jobs:
 
       - name: Insert data source information into application.yml
         run: |
-          sed -i "s|\${MYSQL_HOST}|$MYSQL_HOST|g" ./main/resources/application-deploy.yml
-          sed -i "s|\${MYSQL_USERNAME}|$MYSQL_USERNAME|g" ./main/resources/application-deploy.yml
-          sed -i "s|\${MYSQL_PASSWORD}|$MYSQL_PASSWORD|g" ./main/resources/application-deploy.yml
-          sed -i "s|\${CLIENT_ID}|$CLIENT_ID|g" ./main/resources/application-deploy.yml
-          sed -i "s|\${CLIENT_SECRET}|$CLIENT_SECRET|g" ./main/resources/application-deploy.yml
-          sed -i "s|\${JWT_ISSUER}|$JWT_ISSUER|g" ./main/resources/application-deploy.yml
-          sed -i "s|\${JWT_SECRET}|$JWT_SECRET|g" ./main/resources/application-deploy.yml
-        working-directory: ${{ env.working-directory }}
+          sed -i "s|\${MYSQL_HOST}|$MYSQL_HOST|g" ./src/main/resources/application-deploy.yml
+          sed -i "s|\${MYSQL_USERNAME}|$MYSQL_USERNAME|g" ./src/main/resources/application-deploy.yml
+          sed -i "s|\${MYSQL_PASSWORD}|$MYSQL_PASSWORD|g" ./src/main/resources/application-deploy.yml
+          sed -i "s|\${CLIENT_ID}|$CLIENT_ID|g" ./src/main/resources/application-deploy.yml
+          sed -i "s|\${CLIENT_SECRET}|$CLIENT_SECRET|g" ./src/main/resources/application-deploy.yml
+          sed -i "s|\${JWT_ISSUER}|$JWT_ISSUER|g" ./src/main/resources/application-deploy.yml
+          sed -i "s|\${JWT_SECRET}|$JWT_SECRET|g" ./src/main/resources/application-deploy.yml
+#        working-directory: ${{ env.working-directory }}
         env:
           MYSQL_HOST: ${{ secrets.MYSQL_HOST }}
           MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
@@ -45,7 +46,7 @@ jobs:
           docker build -t ${{ secrets.DOCKER_USERNAME }}/calefit-test .
           docker push ${{ secrets.DOCKER_USERNAME }}/calefit-test
           docker rmi ${{ secrets.DOCKER_USERNAME }}/calefit-test
-        working-directory: ${{ env.working-directory }}
+#        working-directory: ${{ env.working-directory }}
 
 
       # 도커 이미지 배포 및 실행(EC2 ubuntu20.04로 배포)
