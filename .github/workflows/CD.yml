@@ -10,7 +10,7 @@ permissions:
 jobs:
   cd:
     env:
-      working-directory: ./
+      working-directory: ./src
     runs-on: ubuntu-latest
 
     steps:
@@ -21,13 +21,13 @@ jobs:
 
       - name: Insert data source information into application.yml
         run: |
-          sed -i "s|\${MYSQL_HOST}|$MYSQL_HOST|g" src/main/resources/application-deploy.yml
-          sed -i "s|\${MYSQL_USERNAME}|$MYSQL_USERNAME|g" src/main/resources/application-deploy.yml
-          sed -i "s|\${MYSQL_PASSWORD}|$MYSQL_PASSWORD|g" src/main/resources/application-deploy.yml
-          sed -i "s|\${CLIENT_ID}|$CLIENT_ID|g" src/main/resources/application-deploy.yml
-          sed -i "s|\${CLIENT_SECRET}|$CLIENT_SECRET|g" src/main/resources/application-deploy.yml
-          sed -i "s|\${JWT_ISSUER}|$JWT_ISSUER|g" src/main/resources/application-deploy.yml
-          sed -i "s|\${JWT_SECRET}|$JWT_SECRET|g" src/main/resources/application-deploy.yml
+          sed -i "s|\${MYSQL_HOST}|$MYSQL_HOST|g" ./main/resources/application-deploy.yml
+          sed -i "s|\${MYSQL_USERNAME}|$MYSQL_USERNAME|g" ./main/resources/application-deploy.yml
+          sed -i "s|\${MYSQL_PASSWORD}|$MYSQL_PASSWORD|g" ./main/resources/application-deploy.yml
+          sed -i "s|\${CLIENT_ID}|$CLIENT_ID|g" ./main/resources/application-deploy.yml
+          sed -i "s|\${CLIENT_SECRET}|$CLIENT_SECRET|g" ./main/resources/application-deploy.yml
+          sed -i "s|\${JWT_ISSUER}|$JWT_ISSUER|g" ./main/resources/application-deploy.yml
+          sed -i "s|\${JWT_SECRET}|$JWT_SECRET|g" ./main/resources/application-deploy.yml
         working-directory: ${{ env.working-directory }}
         env:
           MYSQL_HOST: ${{ secrets.MYSQL_HOST }}
