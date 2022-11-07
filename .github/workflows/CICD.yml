@@ -113,7 +113,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }} #(인스턴스를 생성할 때 다운받은 pem키안에 값을 모두 복사해서 붙여넣기)
           envs: GITHUB_SHA
           script: |
-            sudo docker ps -a -q --filter "name=calefit-test" | grep -q . && docker stop calefit-test && docker rm calefit-test | true
+            sudo docker ps -a -q --filter "name=calefit-test" | grep -q . && sudo docker stop calefit-test && sudo docker rm calefit-test | true
             sudo docker rmi ${{ secrets.DOCKER_USERNAME }}/calefit-test
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/calefit-test
             sudo docker run -d -p 80:8080 --name calefit-test ${{ secrets.DOCKER_USERNAME }}/calefit-test
