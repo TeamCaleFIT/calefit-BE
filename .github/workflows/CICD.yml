@@ -1,6 +1,8 @@
-name: CI
+name: CICD
 
 on:
+  push:
+    branches: [ "test-workingDirectory" ]
   pull_request:
     branches: [ "main" ]
 
@@ -8,8 +10,8 @@ permissions:
   contents: read
 
 jobs:
-  ci-test:
-    name: SpringBoot Test
+  cicd:
+    name: CICD
     runs-on: ubuntu-latest
 
     steps:
