@@ -67,9 +67,6 @@ jobs:
             echo "waiting for mysql.."
           done
 
-#      - name: Test with Gradle
-#        run: ./gradlew test --stacktrace
-
       # 프로젝트 빌드(test를 포함)
       - name: Build with Gradle
         run: ./gradlew bootJar
