@@ -44,6 +44,7 @@ jobs:
           sed -i "s|\${CLIENT_SECRET}|$CLIENT_SECRET|g" ./src/main/resources/application-deploy.yml
           sed -i "s|\${JWT_ISSUER}|$JWT_ISSUER|g" ./src/main/resources/application-deploy.yml
           sed -i "s|\${JWT_SECRET}|$JWT_SECRET|g" ./src/main/resources/application-deploy.yml
+          sed -i "s|\${AWS_HOST_DNS}|$AWS_HOST_DNS|g" ./src/main/resources/application-oauth.yml
         env:
           REDIS_HOST: ${{ secrets.REDIS_HOST }}
           REDIS_PORT: ${{ secrets.REDIS_PORT }}
@@ -54,6 +55,7 @@ jobs:
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
           JWT_ISSUER: ${{ secrets.JWT_ISSUER }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          AWS_HOST_DNS: ${{ secrets.AWS_HOST_DNS }}
 
 
       - name: create mysql docker container
