@@ -12,6 +12,7 @@ import com.calefit.member.MemberRepository;
 import com.calefit.member.entity.Member;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpEntity;
@@ -32,6 +33,7 @@ import static com.calefit.auth.jwt.JwtConst.*;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class LoginService {
 
     private final JwtHandler jwtHandler;
@@ -75,8 +77,12 @@ public class LoginService {
         Map<String, String> header = new HashMap<>();
         header.put(HttpHeaders.ACCEPT, "application/json");
         headers.setAll(header);
-
         MultiValueMap<String, String> requestPayloads = createRequestPayloads(code, provider);
+        log.debug("code: {}", code);
+        log.debug("client_id: {}", provider.getClientId());
+        log.debug("client_secret: {}", provider.getClientSecret());
+        log.debug("redirect_uri: {}", provider.getRedirectUri());
+        log.debug("access token path: {}", provider.getAccessTokenPath());
         HttpEntity<?> request = new HttpEntity<>(requestPayloads, headers);
 
         ResponseEntity<?> response = new RestTemplate().postForEntity(
