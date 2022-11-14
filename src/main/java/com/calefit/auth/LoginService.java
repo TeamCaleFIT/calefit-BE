@@ -79,11 +79,11 @@ public class LoginService {
         header.put(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
         headers.setAll(header);
         MultiValueMap<String, String> requestPayloads = createRequestPayloads(code, provider);
-        log.debug("code: {}", code);
-        log.debug("client_id: {}", provider.getClientId());
-        log.debug("client_secret: {}", provider.getClientSecret());
-        log.debug("redirect_uri: {}", provider.getRedirectUri());
-        log.debug("access token path: {}", provider.getAccessTokenPath());
+        log.info("code: {}", code);
+        log.info("client_id: {}", provider.getClientId());
+        log.info("client_secret: {}", provider.getClientSecret());
+        log.info("redirect_uri: {}", provider.getRedirectUri());
+        log.info("access token path: {}", provider.getAccessTokenPath());
         HttpEntity<?> request = new HttpEntity<>(requestPayloads, headers);
 
         RestTemplate restTemplate = new RestTemplate();
