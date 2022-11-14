@@ -45,6 +45,8 @@ jobs:
           sed -i "s|\${JWT_ISSUER}|$JWT_ISSUER|g" ./src/main/resources/application-deploy.yml
           sed -i "s|\${JWT_SECRET}|$JWT_SECRET|g" ./src/main/resources/application-deploy.yml
           sed -i "s|\${AWS_HOST_DNS}|$AWS_HOST_DNS|g" ./src/main/resources/application-oauth.yml
+          sed -i "s|\${KAKAO_CLIENT_ID}|$KAKAO_CLIENT_ID|g" ./src/main/resources/application-oauth.yml
+          sed -i "s|\${KAKAO_CLIENT_SECRET}|$KAKAO_CLIENT_SECRET|g" ./src/main/resources/application-oauth.yml
         env:
           REDIS_HOST: ${{ secrets.REDIS_HOST }}
           REDIS_PORT: ${{ secrets.REDIS_PORT }}
@@ -56,6 +58,8 @@ jobs:
           JWT_ISSUER: ${{ secrets.JWT_ISSUER }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           AWS_HOST_DNS: ${{ secrets.AWS_HOST_DNS }}
+          KAKAO_CLIENT_ID: ${{ secrets.KAKAO_CLIENT_ID }}
+          KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
 
 
       - name: create mysql docker container
