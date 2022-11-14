@@ -75,7 +75,7 @@ public class LoginService {
     private OAuthAccessToken getOauthAccessToken(String code, OAuthProvider provider) {
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
         Map<String, String> header = new HashMap<>();
-        header.put(HttpHeaders.ACCEPT, "application/json;charset=utf-8");
+//        header.put(HttpHeaders.ACCEPT, "application/json;charset=utf-8");
         header.put(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
         headers.setAll(header);
         MultiValueMap<String, String> requestPayloads = createRequestPayloads(code, provider);
