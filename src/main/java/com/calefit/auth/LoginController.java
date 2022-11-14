@@ -39,7 +39,7 @@ public class LoginController {
         return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY)
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
                 .header(HttpHeaders.SET_COOKIE, cookie2.toString())
-                .header(HttpHeaders.LOCATION, "/test2")
+                .header(HttpHeaders.LOCATION, "https://naver.com")
                 .build();
     }
 
