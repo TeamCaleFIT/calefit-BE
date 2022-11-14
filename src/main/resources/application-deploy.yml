@@ -1,6 +1,6 @@
 spring:
   redis:
-    host: host.docker.internal
+    host: redis://host.docker.internal
     port: ${REDIS_PORT}
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
