@@ -19,6 +19,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -86,7 +87,9 @@ public class LoginService {
         log.debug("access token path: {}", provider.getAccessTokenPath());
         HttpEntity<?> request = new HttpEntity<>(requestPayloads, headers);
 
-        ResponseEntity<?> response = new RestTemplate().postForEntity(
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
+        ResponseEntity<?> response = restTemplate.postForEntity(
                 provider.getAccessTokenPath(), request, OAuthAccessToken.class);
 
         return (OAuthAccessToken) response.getBody();
