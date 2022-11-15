@@ -1,0 +1,132 @@
+name: CICD
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  cicd:
+    name: CICD
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          java-version: "11"
+          distribution: "temurin"
+          cache: gradle
+
+      - name: Use gradle cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      # deploy.yml 환경변수 치환
+      - name: Insert data source information into application.yml
+        run: |
+          sed -i "s|\${REDIS_HOST}|$REDIS_HOST|g" ./src/main/resources/application-deploy.yml
+          sed -i "s|\${REDIS_PORT}|$REDIS_PORT|g" ./src/main/resources/application-deploy.yml
+          sed -i "s|\${MYSQL_HOST}|$MYSQL_HOST|g" ./src/main/resources/application-deploy.yml
+          sed -i "s|\${MYSQL_USERNAME}|$MYSQL_USERNAME|g" ./src/main/resources/application-deploy.yml
+          sed -i "s|\${MYSQL_PASSWORD}|$MYSQL_PASSWORD|g" ./src/main/resources/application-deploy.yml
+          sed -i "s|\${CLIENT_ID}|$CLIENT_ID|g" ./src/main/resources/application-deploy.yml
+          sed -i "s|\${CLIENT_SECRET}|$CLIENT_SECRET|g" ./src/main/resources/application-deploy.yml
+          sed -i "s|\${JWT_ISSUER}|$JWT_ISSUER|g" ./src/main/resources/application-deploy.yml
+          sed -i "s|\${JWT_SECRET}|$JWT_SECRET|g" ./src/main/resources/application-deploy.yml
+          sed -i "s|\${AWS_HOST_DNS}|$AWS_HOST_DNS|g" ./src/main/resources/application-oauth.yml
+          sed -i "s|\${KAKAO_CLIENT_ID}|$KAKAO_CLIENT_ID|g" ./src/main/resources/application-oauth.yml
+          sed -i "s|\${KAKAO_CLIENT_SECRET}|$KAKAO_CLIENT_SECRET|g" ./src/main/resources/application-oauth.yml
+        env:
+          REDIS_HOST: ${{ secrets.REDIS_HOST }}
+          REDIS_PORT: ${{ secrets.REDIS_PORT }}
+          MYSQL_HOST: ${{ secrets.MYSQL_HOST }}
+          MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
+          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          JWT_ISSUER: ${{ secrets.JWT_ISSUER }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          AWS_HOST_DNS: ${{ secrets.AWS_HOST_DNS }}
+          KAKAO_CLIENT_ID: ${{ secrets.KAKAO_CLIENT_ID }}
+          KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
+
+
+      - name: create mysql docker container
+        run: |
+          sudo docker run -d --name vans -p 3306:3306 --env MYSQL_DATABASE=calefit --env MYSQL_ROOT_PASSWORD=1234 mysql:8.0.23
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: docker check
+        run: |
+          docker ps
+          while ! docker exec vans mysql --user=root --password=1234 -e "SELECT 1" >/dev/null 2>&1; do
+            sleep 2
+            echo "waiting for mysql.."
+          done
+
+      # 프로젝트 빌드(test를 포함)
+      - name: Build with Gradle
+        run: ./gradlew bootJar
+
+      - name: Noti Discord - Test Success
+        uses: rjstone/discord-webhook-notify@v1
+        if: success()
+        with:
+          severity: info
+          details: Test Succeeded!
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Noti Discord - Test Failure
+        uses: rjstone/discord-webhook-notify@v1
+        if: failure()
+        with:
+          severity: error
+          details: Test Failed!
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Noti Discord - Test Cancelled
+        uses: rjstone/discord-webhook-notify@v1
+        if: cancelled()
+        with:
+          severity: warn
+          details: Test Cancelled!
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+
+
+
+      # 도커 빌드(도커 이미지 생성)
+      - name: Docker build
+        run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/calefit-test .
+          docker push ${{ secrets.DOCKER_USERNAME }}/calefit-test
+          docker rmi ${{ secrets.DOCKER_USERNAME }}/calefit-test
+
+
+      # 도커 이미지 배포 및 실행(EC2 ubuntu20.04로 배포)
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.AWS_HOST_DNS }} #(생성한 인스턴스의 DNS주소)
+          username: ubuntu
+          key: ${{ secrets.SSH_PRIVATE_KEY }} #(인스턴스를 생성할 때 다운받은 pem키안에 값을 모두 복사해서 붙여넣기)
+          envs: GITHUB_SHA
+          script: |
+            sudo docker ps -a -q --filter "name=calefit-test" | grep -q . && sudo docker stop calefit-test && sudo docker rm calefit-test | true
+            sudo docker rmi ${{ secrets.DOCKER_USERNAME }}/calefit-test
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/calefit-test
+            sudo docker run --add-host=host.docker.internal:host-gateway -d -p 80:8080 --name calefit-test ${{ secrets.DOCKER_USERNAME }}/calefit-test
+            sudo docker rmi -f $(docker images -f "dangling=true" -q) || true
+
+
+
+
