@@ -5,6 +5,8 @@ on:
     branches:
       - 'feature-**'
       - 'test-**'
+  pull-request:
+    branches: [ "main" ]
 
 permissions:
   contents: read
