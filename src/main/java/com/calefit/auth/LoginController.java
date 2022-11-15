@@ -36,10 +36,9 @@ public class LoginController {
                 .path("/")
                 .build();
 
-        return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY)
+        return ResponseEntity.status(HttpStatus.OK)
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
                 .header(HttpHeaders.SET_COOKIE, cookie2.toString())
-                .header(HttpHeaders.LOCATION, "/test2")
                 .build();
     }
 
@@ -62,17 +61,5 @@ public class LoginController {
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
                 .header(HttpHeaders.SET_COOKIE, cookie2.toString())
                 .build();
-    }
-
-    @GetMapping("/test2")
-    public ModelAndView page() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("test.html");
-        return modelAndView;
-    }
-
-    @GetMapping("/api/test")
-    public String test() {
-        return "hi there";
     }
 }
