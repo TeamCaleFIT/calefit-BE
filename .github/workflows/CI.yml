@@ -1,6 +1,10 @@
 name: CI
 
 on:
+  push:
+    branches:
+      - 'feature-**'
+      - 'test-**'
   pull_request:
     branches: [ "main" ]
 
@@ -30,14 +34,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: create mysql docker container
+      - name: Create mysql docker container
         run: |
           sudo docker run -d --name vans -p 3306:3306 --env MYSQL_DATABASE=calefit --env MYSQL_ROOT_PASSWORD=1234 mysql:8.0.23
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
         
-      - name: docker check
+      - name: Docker check
         run: |
           docker ps
           while ! docker exec vans mysql --user=root --password=1234 -e "SELECT 1" >/dev/null 2>&1; do 
@@ -48,21 +52,21 @@ jobs:
       - name: Test with Gradle
         run: ./gradlew test --stacktrace
         
-      - name: Noti Discord - Test Success
+      - name: Noti Discord - CI test success
         uses: rjstone/discord-webhook-notify@v1
         if: success()
         with:
           severity: info
-          details: Test Succeeded!
+          details: CI test succeeded!
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-      - name: Noti Discord - Test Failure
+      - name: Noti Discord - CI test failed
         uses: rjstone/discord-webhook-notify@v1
         if: failure()
         with:
           severity: error
-          details: Test Failed!
+          details: CI test failed!
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-      - name: Noti Discord - Test Cancelled
+      - name: Noti Discord - CI test cancelled
         uses: rjstone/discord-webhook-notify@v1
         if: cancelled()
         with:
