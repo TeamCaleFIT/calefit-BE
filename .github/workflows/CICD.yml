@@ -2,7 +2,9 @@ name: CICD
 
 on:
   push:
-    branches: [ "test-workingDirectory" ]
+    branches:
+      - 'feature-**'
+      - 'test-**'
   pull_request:
     branches: [ "main" ]
 
