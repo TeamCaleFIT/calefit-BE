@@ -3,7 +3,6 @@ package com.calefit.workout;
 import com.calefit.common.base.ResponseCodes;
 import com.calefit.common.dto.CommonDtoList;
 import com.calefit.common.entity.CommonResponseEntity;
-import com.calefit.workout.dto.SearchWorkoutLogsResponse;
 import com.calefit.workout.dto.SearchWorkoutResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
