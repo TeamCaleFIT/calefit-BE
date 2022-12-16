@@ -42,7 +42,7 @@ jobs:
           sed -i "s|\${CLIENT_SECRET}|$CLIENT_SECRET|g" ./src/main/resources/application-deploy.yml
           sed -i "s|\${JWT_ISSUER}|$JWT_ISSUER|g" ./src/main/resources/application-deploy.yml
           sed -i "s|\${JWT_SECRET}|$JWT_SECRET|g" ./src/main/resources/application-deploy.yml
-          sed -i "s|\${AWS_HOST_DNS}|$AWS_HOST_DNS|g" ./src/main/resources/application-oauth.yml
+          sed -i "s|\${REDIRECT_URL_DOMAIN}|REDIRECT_URL_DOMAIN|g" ./src/main/resources/application-oauth.yml
           sed -i "s|\${KAKAO_CLIENT_ID}|$KAKAO_CLIENT_ID|g" ./src/main/resources/application-oauth.yml
           sed -i "s|\${KAKAO_CLIENT_SECRET}|$KAKAO_CLIENT_SECRET|g" ./src/main/resources/application-oauth.yml
         env:
@@ -55,7 +55,7 @@ jobs:
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
           JWT_ISSUER: ${{ secrets.JWT_ISSUER }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          AWS_HOST_DNS: ${{ secrets.AWS_HOST_DNS }}
+          REDIRECT_URL_DOMAIN: ${{ secrets.REDIRECT_URL_DOMAIN }}
           KAKAO_CLIENT_ID: ${{ secrets.KAKAO_CLIENT_ID }}
           KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
 
