@@ -4,13 +4,13 @@ oauth2:
       kakao:
         client-id: ${KAKAO_CLIENT_ID}
         client-secret: ${KAKAO_CLIENT_SECRET}
-        redirect-uri: http://${AWS_HOST_DNS}/oauth/callback?providerType=kakao
+        redirect-uri: http://${REDIRECT_URL_DOMAIN}/oauth/callback?providerType=kakao
         access-token-path: https://kauth.kakao.com/oauth/token
         resource-path: https://kapi.kakao.com/v2/user/me
 
       google:
         client-id: ${GOOGLE_CLIENT_ID}
         client-secret: ${GOOGLE_CLIENT_SECRET}
-        redirect-uri: http://${AWS_HOST_DNS}/oauth/callback?providerType=google
+        redirect-uri: http://${REDIRECT_URL_DOMAIN}/oauth/callback?providerType=google
         access-token-path: https://www.googleapis.com/oauth2/v4/token
         resource-path: https://www.googleapis.com/oauth2/v3/userinfo

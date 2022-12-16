@@ -17,7 +17,10 @@ public enum ResponseCodes implements CodeAndMessages {
     INBODY_UPDATE_SUCCESS("IUPS", "인바디를 수정하였습니다."),
 
     //OAuth
-    OAUTH_LOGIN_SUCCESS("ALOS", "로그인이 성공하였습니다.");
+    OAUTH_LOGIN_SUCCESS("ALOS", "로그인이 성공하였습니다."),
+
+    //Workout
+    WORKOUT_SEARCH_SUCCESS("WSES", "운동 종목 조회에 성공하였습니다.");
 
     private final String code;
     private final String message;
