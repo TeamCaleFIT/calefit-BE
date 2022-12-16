@@ -123,6 +123,7 @@ jobs:
           script: |
             sudo docker ps -a -q --filter "name=calefit-test" | grep -q . && sudo docker stop calefit-test && sudo docker rm calefit-test | true
             sudo docker rmi ${{ secrets.DOCKER_USERNAME }}/calefit-test
+            sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/calefit-test
             sudo docker run --add-host=host.docker.internal:host-gateway -d -p 80:8080 --name calefit-test ${{ secrets.DOCKER_USERNAME }}/calefit-test
             sudo docker rmi -f $(docker images -f "dangling=true" -q) || true
