@@ -1,4 +1,4 @@
-package com.calefit.workout;
+package com.calefit.unit.workout;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -6,6 +6,8 @@ import static org.mockito.BDDMockito.then;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.times;
 
+import com.calefit.workout.WorkoutRepository;
+import com.calefit.workout.WorkoutService;
 import com.calefit.workout.dto.SearchWorkoutResponse;
 import com.calefit.workout.entity.Workout;
 import java.util.ArrayList;
