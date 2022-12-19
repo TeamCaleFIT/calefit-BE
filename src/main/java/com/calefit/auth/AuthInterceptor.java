@@ -43,7 +43,6 @@ public class AuthInterceptor implements HandlerInterceptor {
             Member member = memberRepository.findMemberByEmail(email)
                     .orElseThrow(() -> new NoSuchElementException("no member"));
 
-            //todo: 왜 request에 유저 정보를 담았었지? 로그인 유저 정보를 requeest를 이용해서 넘기려고 했었나? 필요 없으면 삭제
             request.setAttribute(UNIQUE_USER_KEY, member.getEmail());
         } catch(ExpiredJwtException e) {
             String refreshToken = request.getHeader("RefreshToken");
