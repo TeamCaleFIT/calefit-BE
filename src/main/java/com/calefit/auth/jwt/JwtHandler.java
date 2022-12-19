@@ -1,5 +1,7 @@
 package com.calefit.auth.jwt;
 
+import static com.calefit.auth.jwt.JwtConst.UNIQUE_USER_KEY;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -21,11 +23,11 @@ public class JwtHandler {
         this.jwtProperties = jwtProperties;
     }
 
-    public String createToken(String memberId, long expirationPeriod) {
+    public String createToken(String email, long expirationPeriod) {
         return Jwts.builder()
                 .setHeaderParam("typ", "JWT")
                 .setIssuer(jwtProperties.getIssuer())
-                .claim("memberId", memberId)
+                .claim(UNIQUE_USER_KEY, email)
                 .setIssuedAt(new Date())
                 .setExpiration(Date.from(Instant.now().plusSeconds(expirationPeriod)))
                 .signWith(createSecretKey())

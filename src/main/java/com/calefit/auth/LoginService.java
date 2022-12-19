@@ -2,6 +2,7 @@ package com.calefit.auth;
 
 import com.calefit.auth.domain.OAuthProperties;
 import com.calefit.auth.domain.provider.OAuthProvider;
+import com.calefit.auth.domain.provider.ProviderType;
 import com.calefit.auth.exception.InvalidTokenException;
 import com.calefit.auth.exception.NotFoundTokenException;
 import com.calefit.auth.info.OAuthMemberInfo;
@@ -52,12 +53,12 @@ public class LoginService {
         );
         saveMember(oAuthMemberInfo);
 
-        String refreshToken = jwtHandler.createToken(oAuthMemberInfo.getMemberId(), REFRESH_TOKEN_EXPIRATION_PERIOD);
-        redisTemplate.opsForValue().set(oAuthMemberInfo.getMemberId(), refreshToken);
-        redisTemplate.expire(oAuthMemberInfo.getMemberId(), Duration.ofSeconds(REFRESH_TOKEN_EXPIRATION_PERIOD));
+        String refreshToken = jwtHandler.createToken(oAuthMemberInfo.getEmail(), REFRESH_TOKEN_EXPIRATION_PERIOD);
+        redisTemplate.opsForValue().set(oAuthMemberInfo.getEmail(), refreshToken);
+        redisTemplate.expire(oAuthMemberInfo.getEmail(), Duration.ofSeconds(REFRESH_TOKEN_EXPIRATION_PERIOD));
 
         return new Token(
-                jwtHandler.createToken(oAuthMemberInfo.getMemberId(), ACCESS_TOKEN_EXPIRATION_PERIOD),
+                jwtHandler.createToken(oAuthMemberInfo.getEmail(), ACCESS_TOKEN_EXPIRATION_PERIOD),
                 refreshToken
         );
     }
@@ -66,8 +67,8 @@ public class LoginService {
         verifyHeader(refreshToken);
         String parsedRefreshToken = refreshToken.split("Bearer ")[1];
         Claims claims = jwtHandler.decodeJwt(parsedRefreshToken);
-        String memberId = claims.get("memberId", String.class);
-        redisTemplate.delete(memberId);
+        String email = claims.get(UNIQUE_USER_KEY, String.class);
+        redisTemplate.delete(email);
     }
 
     private OAuthAccessToken getOauthAccessToken(String code, OAuthProvider provider) {
@@ -112,7 +113,7 @@ public class LoginService {
     }
 
     private void saveMember(OAuthMemberInfo memberInfo) {
-        Member findMember = memberRepository.findMemberByMemberId(memberInfo.getMemberId())
+        Member findMember = memberRepository.findMemberByEmail(memberInfo.getEmail())
                 .map(member -> member.update(memberInfo.getEmail(), memberInfo.getName(), memberInfo.getProfileUrl()))
                 .orElseGet(memberInfo::toMember);
 
