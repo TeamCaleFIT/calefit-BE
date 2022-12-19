@@ -1,4 +1,4 @@
-package com.calefit.auth;
+package com.calefit.auth.domain.provider;
 
 import lombok.Getter;
 

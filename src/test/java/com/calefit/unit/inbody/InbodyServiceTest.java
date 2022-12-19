@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
-import com.calefit.auth.ProviderType;
+import com.calefit.auth.domain.provider.ProviderType;
 import com.calefit.inbody.InbodyRepository;
 import com.calefit.inbody.InbodyService;
 import com.calefit.inbody.domain.BodyComposition;

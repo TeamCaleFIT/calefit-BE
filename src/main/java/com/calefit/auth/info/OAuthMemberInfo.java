@@ -1,6 +1,6 @@
 package com.calefit.auth.info;
 
-import com.calefit.auth.ProviderType;
+import com.calefit.auth.domain.provider.ProviderType;
 import com.calefit.member.entity.Member;
 
 import java.util.Map;
