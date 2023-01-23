@@ -6,10 +6,10 @@ import lombok.Getter;
 @Getter
 public class SearchWorkoutResponse {
 
-    private Integer id;
-    private String name;
-    private String imageUrl;
-    private String description;
+    private final Integer id;
+    private final String name;
+    private final String imageUrl;
+    private final String description;
 
     public SearchWorkoutResponse(Integer id, String name, String imageUrl, String description) {
         this.id = id;
