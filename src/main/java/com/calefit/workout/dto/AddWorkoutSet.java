@@ -1,5 +1,7 @@
 package com.calefit.workout.dto;
 
+import com.calefit.workout.entity.WorkoutLog;
+import com.calefit.workout.entity.WorkoutSet;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -33,4 +35,8 @@ public class AddWorkoutSet {
     @NotNull(message = "수행 횟수를 입력해주세요.")
     @Positive(message = "수행 횟수는 1 이상의 값을 입력해주세요.")
     private Integer finishedReps;
+
+    public WorkoutSet toEntity(WorkoutLog workoutLog) {
+        return new WorkoutSet(workoutLog, setNumber, goalWeight, goalReps, finishedWeight, finishedReps);
+    }
 }
