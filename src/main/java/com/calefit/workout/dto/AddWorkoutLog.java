@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
  * 하나의 운동 종목에 대한 기록
  * */
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
 public class AddWorkoutLog {
 
     @Positive(message = "양수 값을 입력해주세요.")

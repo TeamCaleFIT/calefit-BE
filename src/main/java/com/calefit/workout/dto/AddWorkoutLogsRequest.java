@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
  * 그날 하루동안 했던 운동들의 기록
  * */
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
 public class AddWorkoutLogsRequest {
 
     @NotNull(message = "운동 날짜를 입력해주세요.")

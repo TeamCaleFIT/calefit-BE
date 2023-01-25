@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
  * 운동 한 종목에 대한 세트 하나의 기록
  * */
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
 public class AddWorkoutSet {
 
     @NotNull(message = "세트 번호를 입력해주세요.")
