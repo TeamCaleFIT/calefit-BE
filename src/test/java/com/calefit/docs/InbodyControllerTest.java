@@ -43,7 +43,6 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 
 @WebMvcTest(InbodyController.class)
 @ContextConfiguration(classes = InbodyController.class)
-@AutoConfigureMockMvc
 @AutoConfigureRestDocs
 @ExtendWith(RestDocumentationExtension.class)
 class InbodyControllerTest {
