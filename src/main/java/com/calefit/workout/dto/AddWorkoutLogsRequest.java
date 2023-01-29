@@ -3,7 +3,6 @@ package com.calefit.workout.dto;
 import java.time.LocalDate;
 import java.util.List;
 import javax.validation.constraints.NotNull;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
