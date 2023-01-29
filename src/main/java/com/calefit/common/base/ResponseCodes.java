@@ -20,7 +20,8 @@ public enum ResponseCodes implements CodeAndMessages {
     OAUTH_LOGIN_SUCCESS("ALOS", "로그인이 성공하였습니다."),
 
     //Workout
-    WORKOUT_SEARCH_SUCCESS("WSES", "운동 종목 조회에 성공하였습니다.");
+    WORKOUT_SEARCH_SUCCESS("WSES", "운동 종목 조회에 성공하였습니다."),
+    WORKOUT_LOG_CREATE_SUCCESS("WCRS", "운동 일지 등록에 성공하였습니다.");
 
     private final String code;
     private final String message;

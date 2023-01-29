@@ -1,6 +1,6 @@
 package com.calefit.unit.member;
 
-import com.calefit.auth.ProviderType;
+import com.calefit.auth.domain.provider.ProviderType;
 import com.calefit.member.MemberRepository;
 import com.calefit.member.MemberService;
 import com.calefit.member.dto.MemberSearchResponse;

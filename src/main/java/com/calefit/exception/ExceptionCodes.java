@@ -7,6 +7,7 @@ import com.calefit.auth.exception.NotFoundTokenException;
 import com.calefit.common.base.CodeAndMessages;
 import com.calefit.inbody.exception.NotFoundInbodyException;
 import com.calefit.member.exception.*;
+import com.calefit.workout.exception.NotFoundWorkoutException;
 import lombok.Getter;
 
 import java.util.Arrays;
@@ -25,7 +26,11 @@ public enum ExceptionCodes implements CodeAndMessages {
     NOT_FOUND_TOKEN("NFOT", "토큰 정보가 존재하지 않습니다.", NotFoundTokenException.class),
     EXPIRED_REFRESH_TOKEN("ERET", "로그인 정보가 만료되었습니다.", ExpiredRefreshTokenException.class),
     INVALID_TOKEN("INTO", "토큰 타입이 유효하지 않습니다.", InvalidTokenException.class),
-    INVALID_REFRESH_TOKEN("IRET", "로그인 정보가 일치하지 않습니다. 다시 로그인해주세요.", InvalidRefreshTokenException.class);
+    INVALID_REFRESH_TOKEN("IRET", "로그인 정보가 일치하지 않습니다. 다시 로그인해주세요.", InvalidRefreshTokenException.class),
+
+    //Workout
+    NOT_FOUND_WORKOUT("NFWO", "운동 종목 정보가 존재하지 않습니다.", NotFoundWorkoutException.class);
+
     private final String code;
     private final String message;
     private final Class<? extends Exception> type;

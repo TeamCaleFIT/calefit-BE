@@ -1,6 +1,6 @@
 package com.calefit.auth.info.impl;
 
-import com.calefit.auth.ProviderType;
+import com.calefit.auth.domain.provider.ProviderType;
 import com.calefit.auth.info.OAuthMemberInfo;
 
 import java.util.HashMap;

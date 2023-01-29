@@ -41,3 +41,25 @@ include::{snippets}/inbody/deleteInbody/request-parameters.adoc[]
 Response
 include::{snippets}/inbody/deleteInbody/http-response.adoc[]
 include::{snippets}/inbody/deleteInbody/response-fields.adoc[]
+
+
+[[Workout_API]]
+## Workout API
+[[Workout_조회]]
+### Workout 조회
+Request
+include::{snippets}/workout/listWorkouts/http-request.adoc[]
+include::{snippets}/workout/listWorkouts/request-parameters.adoc[]
+Response
+include::{snippets}/workout/listWorkouts/http-response.adoc[]
+include::{snippets}/workout/listWorkouts/response-fields.adoc[]
+
+[[Workout_Log_등록]]
+### Workout Log 등록
+Request
+include::{snippets}/workout/log/createWorkoutLogs/http-request.adoc[]
+include::{snippets}/workout/log/createWorkoutLogs/request-fields.adoc[]
+Response
+include::{snippets}/workout/log/createWorkoutLogs/http-response.adoc[]
+include::{snippets}/workout/log/createWorkoutLogs/response-fields.adoc[]
+

@@ -39,34 +39,34 @@ public class AuthInterceptor implements HandlerInterceptor {
 
         try {
             Claims claims = jwtHandler.decodeJwt(parsedAccessToken);
-            String memberId = claims.get("memberId", String.class);
-            Member member = memberRepository.findMemberByMemberId(memberId)
+            String email = claims.get(UNIQUE_USER_KEY, String.class);
+            Member member = memberRepository.findMemberByEmail(email)
                     .orElseThrow(() -> new NoSuchElementException("no member"));
 
-            request.setAttribute("memberId", member.getMemberId());
+            request.setAttribute(UNIQUE_USER_KEY, member.getEmail());
         } catch(ExpiredJwtException e) {
             String refreshToken = request.getHeader("RefreshToken");
             String parsedRefreshToken = refreshToken.split(BEARER)[1];
 
             Claims claims = jwtHandler.decodeJwt(parsedRefreshToken);
-            String memberId = claims.get("memberId", String.class);
-            checkRefreshToken(memberId, parsedRefreshToken);
-            reissueTokens(memberId, response);
+            String email = claims.get(UNIQUE_USER_KEY, String.class);
+            checkRefreshToken(email, parsedRefreshToken);
+            reissueTokens(email, response);
         }
 
         return true;
     }
 
-    private void reissueTokens(String memberId, HttpServletResponse response) {
-        String reissuedAccessToken = jwtHandler.createToken(memberId, ACCESS_TOKEN_EXPIRATION_PERIOD);
-        String reissuedRefreshToken = jwtHandler.createToken(memberId, REFRESH_TOKEN_EXPIRATION_PERIOD);
+    private void reissueTokens(String email, HttpServletResponse response) {
+        String reissuedAccessToken = jwtHandler.createToken(email, ACCESS_TOKEN_EXPIRATION_PERIOD);
+        String reissuedRefreshToken = jwtHandler.createToken(email, REFRESH_TOKEN_EXPIRATION_PERIOD);
         response.addCookie(new Cookie("access_token", reissuedAccessToken));
         response.addCookie(new Cookie("refresh_token", reissuedRefreshToken));
-        redisTemplate.opsForValue().set(memberId, reissuedRefreshToken);
+        redisTemplate.opsForValue().set(email, reissuedRefreshToken);
     }
 
-    private void checkRefreshToken(String memberId, String refreshToken) {
-        String storedRefreshToken = redisTemplate.opsForValue().get(memberId);
+    private void checkRefreshToken(String email, String refreshToken) {
+        String storedRefreshToken = redisTemplate.opsForValue().get(email);
         if (Objects.isNull(storedRefreshToken)) {
             throw new ExpiredRefreshTokenException();
         }
