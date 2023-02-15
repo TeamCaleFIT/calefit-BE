@@ -36,12 +36,13 @@
 ### 🔨 Backend
 
 </summary>
-백엔드 기술 스택(작성중)
+- Java, SpringBoot, MySQL, JPA, Docker, GitHub Actions, AWS
 </div>
 </details>
 
 ## 🧱 Infrastructures
-인프라 아키택쳐 & CI/CD 내용(작성중)
+인프라 아키택쳐
+![calefit_architecture2 drawio](https://user-images.githubusercontent.com/46119135/218891121-e5b6d394-b1f8-4fd0-8c38-4d3c75e94a38.png)
 
 ## 👨‍👦‍👦 Members
 
