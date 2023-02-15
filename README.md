@@ -42,7 +42,29 @@
 
 ## 🧱 Infrastructures
 인프라 아키택쳐
-![calefit_architecture2 drawio](https://user-images.githubusercontent.com/46119135/218891121-e5b6d394-b1f8-4fd0-8c38-4d3c75e94a38.png)
+<details>
+<summary>
+현재 구성
+</summary>
+
+![calefit_architecture_현재구성 drawio](https://user-images.githubusercontent.com/46119135/219073863-064db502-2104-45da-a1d2-df5a9050ca7a.png)
+
+</div>
+</details>
+
+
+<details>
+<summary>
+향후 구성
+</summary>
+
+![calefit_architecture_변경안 drawio](https://user-images.githubusercontent.com/46119135/219074422-ef84b743-76ac-4b4d-bed0-640d1582bb8f.png)
+
+</div>
+</details>
+<details>
+<summary>
+
 
 ## 👨‍👦‍👦 Members
 
